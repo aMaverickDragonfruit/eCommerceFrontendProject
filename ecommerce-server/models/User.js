@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema({
   location: {
     type: String, //temp ask alex
   },
+  products: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);
