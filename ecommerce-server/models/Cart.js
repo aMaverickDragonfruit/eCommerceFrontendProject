@@ -19,6 +19,9 @@ const cartSchema = new mongoose.Schema({
   subtotal: {
     type: Number,
   },
+  tax: {
+    type: Number,
+  },
   estimateTotal: {
     type: Number,
   },
