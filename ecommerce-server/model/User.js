@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (value) {
-        return value.includes('@');
+        return value.includes("@");
       },
     },
   },
@@ -31,18 +31,8 @@ const userSchema = new mongoose.Schema({
   location: {
     type: String, //temp ask alex
   },
-  cart: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Cart',
-  },
-  products: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
-    },
-  ],
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
