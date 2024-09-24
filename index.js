@@ -8,6 +8,7 @@ const errorHandlerMiddleware = require('./middlewares/errorHandler');
 
 const userRouter = require('./routers/users');
 const authRouter = require('./routers/auth');
+const productRouter = require('./routers/product');
 
 connectDB();
 
@@ -17,6 +18,7 @@ app.use(cors({ origin: 'http://localhost:5173' }));
 
 app.use('/auth', authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/products', productRouter);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
