@@ -1,9 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
+    required: true,
   },
   name: {
     type: String,
@@ -30,7 +31,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
     validate: {
       validator: function (value) {
-        return value > 0;
+        return value >= 0;
       },
     },
     required: true,
@@ -41,6 +42,6 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
