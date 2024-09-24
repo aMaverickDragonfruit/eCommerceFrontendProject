@@ -1,17 +1,16 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-const CustomAPIError = require("../errors");
-require("dotenv").config();
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const CustomAPIError = require('../errors');
 
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     let user = await User.findOne({ email });
     if (!user) {
-      throw new CustomAPIError("Invalid Credentials", 400);
+      throw new CustomAPIError('Invalid Credentials', 400);
     }
     if (user.password != password) {
-      return res.status(400).json({ message: "Invalid Credentials" });
+      return res.status(400).json({ message: 'Invalid Credentials' });
     }
 
     const payload = {
@@ -21,7 +20,7 @@ const login = async (req, res, next) => {
     };
 
     const token = await jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: '7d',
     });
 
     res.json({ token });
