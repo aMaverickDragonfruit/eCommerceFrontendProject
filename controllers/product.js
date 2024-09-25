@@ -24,7 +24,7 @@ const createProduct = async (req, res) => {
   try {
     const product = new Product(req.body);
     await product.save();
-    res.status(200).json(product);
+    res.status(201).json(product);
   } catch (err) {
     console.log(err.message);
     res.status(500).json({ message: 'Server Error' });
