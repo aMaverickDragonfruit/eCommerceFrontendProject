@@ -1,27 +1,32 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Button, Flex } from 'antd';
 import { useState } from 'react';
+const { Meta } = Card;
 
 export default function ProductCard({ product }) {
-  const { img, productName, price } = product;
-  cons[(counts, setCounts)] = useState(0);
+  const { imgLink, productName, price } = product;
+  //   const [counts, setCounts] = useState(0);
+  //   console.log(imgLink, productName, price);
   return (
     <Card
+      className='w-80 border-2'
       hoverable
-      style={{
-        width: 240,
-      }}
       cover={
         <img
+          className=''
           alt='example'
-          src={img}
+          src={imgLink}
         />
       }
     >
       <Meta
         title={productName}
-        price={price}
+        description={price}
       />
+      <Flex>
+        <Button type='primary'>Add</Button>
+        <Button type='text'>Edit</Button>
+      </Flex>
     </Card>
   );
 }
