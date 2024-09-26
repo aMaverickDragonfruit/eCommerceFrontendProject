@@ -1,13 +1,8 @@
-import { MailOutlined } from '@ant-design/icons';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
-// import { authUser } from 'app/userSlice';
 
 export default function LogIn() {
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
-  //   const location = useLocation();
+  const navigate = useNavigate();
 
   const fields = [
     {
@@ -17,15 +12,12 @@ export default function LogIn() {
     },
   ];
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(authUser(data)).then(() => {
-    //   navigate(location.state?.from || '/');
-    // });
+  const onSubmit = () => {
+    navigate('/email-sent');
   };
 
   const onClosed = () => {
-    console.log('closed');
+    navigate('/signin');
   };
 
   return (

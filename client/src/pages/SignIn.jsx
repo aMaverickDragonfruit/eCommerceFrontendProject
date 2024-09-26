@@ -1,32 +1,41 @@
-import { MailOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import AuthForm from '../components/AuthForm';
-// import { authUser } from 'app/userSlice';
+import { fetchUser } from '../features/userSlice';
+import { useState } from 'react';
 
 export default function LogIn() {
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
-  //   const location = useLocation();
+  const [err, setErr] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/';
 
   const fields = [
     {
       placeholder: 'Email',
-      name: 'Email',
+      name: 'email',
       type: 'text',
     },
     {
       placeholder: 'Password',
-      name: 'Password',
+      name: 'password',
       type: 'password',
     },
   ];
 
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(authUser(data)).then(() => {
-    //   navigate(location.state?.from || '/');
-    // });
+    dispatch(fetchUser(data)).then((action) => {
+      if (fetchUser.fulfilled.match(action)) {
+        const { user, token } = action.payload;
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token);
+        navigate(from, { replace: true });
+      } else if (fetchUser.rejected.match(action)) {
+        setErr(action.payload);
+      }
+    });
   };
 
   const onClosed = () => {
@@ -35,6 +44,7 @@ export default function LogIn() {
 
   return (
     <div className='box-content w-96 border-2 rounded-md px-10 py-12 shadow-md'>
+      {err ? <p>{err}</p> : <></>}
       <AuthForm
         buttonText='Sign In'
         onSubmit={onSubmit}
@@ -45,9 +55,9 @@ export default function LogIn() {
 
       <div className='flex justify-between'>
         <p>
-          Don't have an account <a href=''>Sign up</a>
+          Don&apos;t have an account <Link to='/signup'>Sign up</Link>
         </p>
-        <a href=''>Forgot password?</a>
+        <Link to='/forgot-password'>Forgot password?</Link>
       </div>
     </div>
   );

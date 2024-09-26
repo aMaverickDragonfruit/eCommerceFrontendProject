@@ -7,7 +7,7 @@ const login = async (req, res, next) => {
     const { email, password } = req.body;
     let user = await User.findOne({ email });
     if (!user) {
-      throw new CustomAPIError('Invalid Credentials', 400);
+      throw new CustomAPIError('Invalid User', 400);
     }
     if (user.password != password) {
       return res.status(400).json({ message: 'Invalid Credentials' });
@@ -23,7 +23,10 @@ const login = async (req, res, next) => {
       expiresIn: '7d',
     });
 
-    res.json({ token });
+    user = user.toObject();
+    delete user.password;
+
+    res.json({ token: token, user: user });
   } catch (err) {
     next(err);
   }

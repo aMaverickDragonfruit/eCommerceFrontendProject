@@ -1,6 +1,4 @@
-import { MailOutlined } from '@ant-design/icons';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 // import { authUser } from 'app/userSlice';
 
@@ -56,7 +54,7 @@ export default function LogIn() {
       />
 
       <p>
-        Already have an account <a href=''>Sign in</a>
+        Already have an account <Link to='/signin'>Sign up</Link>
       </p>
     </div>
   );
