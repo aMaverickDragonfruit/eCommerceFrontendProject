@@ -1,7 +1,9 @@
+import { Layout } from 'antd';
+const { Content } = Layout;
 import { useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 
-export default function LogIn() {
+export default function PwUpdate() {
   const navigate = useNavigate();
 
   const fields = [

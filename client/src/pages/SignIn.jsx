@@ -1,3 +1,5 @@
+import { Layout } from 'antd';
+const { Content } = Layout;
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import AuthForm from '../components/AuthForm';

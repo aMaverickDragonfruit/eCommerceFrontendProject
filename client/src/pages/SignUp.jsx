@@ -1,3 +1,5 @@
+import { Layout } from 'antd';
+const { Content } = Layout;
 import { Link } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 // import { authUser } from 'app/userSlice';

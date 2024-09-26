@@ -1,14 +1,14 @@
-import { Input } from 'antd';
+import { Input, Layout } from 'antd';
+const { Search } = Input;
+const { Header } = Layout;
 import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-
-const { Search } = Input;
 
 export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
   const [amount, setAmount] = useState(0);
   return (
-    <nav className='flex flex-row bg-slate-800 text-slate-50 px-16 py-4 w-auto'>
+    <Header className='flex items-center bg-slate-800 text-slate-50 px-16 py-4 w-auto'>
       <span className=' text-xl font-bold mr-10'>
         Management <span className='text-sm'>&nbsp;chuwa</span>
       </span>
@@ -17,16 +17,16 @@ export default function Navbar() {
         allowClear
         className='w-1/3 basis-1/2 mr-10'
       />
-      <div className='flex gap-5'>
-        <div className=''>
+      <div className='flex gap-4'>
+        <div>
           <UserOutlined className='text-xl mr-2' />
           <span>{isLogin ? 'Sign out' : 'Sign in'}</span>
         </div>
-        <div className=''>
+        <div>
           <ShoppingCartOutlined className='text-2xl mr-2' />
           <span>{amount}</span>
         </div>
       </div>
-    </nav>
+    </Header>
   );
 }

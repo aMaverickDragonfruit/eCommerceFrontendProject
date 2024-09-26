@@ -1,3 +1,6 @@
+import { Layout, Typography } from 'antd';
+const { Content } = Layout;
+const { Title } = Typography;
 import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
 
@@ -14,6 +17,7 @@ export default function Products() {
 
   return (
     <>
+      <Title>Products</Title>
       {products.map((product) => (
         <ProductCard product={product} />
       ))}
