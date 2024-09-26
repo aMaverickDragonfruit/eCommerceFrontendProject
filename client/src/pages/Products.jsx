@@ -1,3 +1,5 @@
+import { Layout } from 'antd';
+const { Content } = Layout;
 import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
 

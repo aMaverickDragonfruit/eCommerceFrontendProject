@@ -1,7 +1,7 @@
 import { MailOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-
 import Notification from '../components/Notification';
+import { Content } from 'antd/es/layout/layout';
 
 export default function PwUpdatedNoti() {
   const navigate = useNavigate();
@@ -14,5 +14,13 @@ export default function PwUpdatedNoti() {
     navigate('/signin');
   };
 
-  return <Notification icon={icon} message={message} onClose={onClose} />;
+  return (
+    <div>
+      <Notification
+        icon={icon}
+        message={message}
+        onClose={onClose}
+      />
+    </div>
+  );
 }
