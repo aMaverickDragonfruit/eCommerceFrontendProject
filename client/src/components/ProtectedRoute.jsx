@@ -2,7 +2,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 
 export default function ProtectedLayout({ children }) {
-  const user = useMemo(() => localStorage.getItem('user'), []);
+  const user = useMemo(() => localStorage.getItem('token'), []);
   const location = useLocation();
 
   if (!user) {
