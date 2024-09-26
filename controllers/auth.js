@@ -16,6 +16,8 @@ const login = async (req, res, next) => {
     const payload = {
       user: {
         id: user._id,
+        isVender: user.isVender,
+        products: user.products,
       },
     };
 

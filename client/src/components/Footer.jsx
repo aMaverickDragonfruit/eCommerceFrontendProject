@@ -19,13 +19,15 @@ export default function AppFooter() {
     <Footer className='flex flex-row justify-between bg-slate-800 text-slate-50 px-16 py-4 w-auto'>
       <p>@2022 All Right Reserved</p>
       <div className='flex gap-4'>
-        {icons.map((icon) => (
-          <div className='text-xl mr-2'>{icon}</div>
+        {icons.map((icon, index) => (
+          <div key={index} className='text-xl mr-2'>
+            {icon}
+          </div>
         ))}
       </div>
       <div className='flex gap-4'>
-        {options.map((option) => (
-          <span>{option}</span>
+        {options.map((option, index) => (
+          <span key={index}>{option}</span>
         ))}
       </div>
     </Footer>

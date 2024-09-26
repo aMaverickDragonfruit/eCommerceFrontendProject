@@ -4,6 +4,7 @@ import api from '../services/api';
 const initialState = {
   user: {},
   token: '',
+  isAuthenticated: false,
   loading: false,
   error: null,
 };
@@ -14,6 +15,7 @@ export const fetchUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.post('/auth/login', data);
+      localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -26,7 +28,19 @@ export const fetchUser = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    getCurrentUser: (state, action) => {
+      state.isAuthenticated = !!Object.keys(action.payload.user).length;
+      state.user = action.payload;
+    },
+    signOutUser: (state) => {
+      state.isAuthenticated = false;
+      state.user = {};
+      state.loading = false;
+      state.error = null;
+      localStorage.removeItem('token');
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.pending, (state) => {
@@ -35,6 +49,8 @@ const userSlice = createSlice({
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
+        state.isAuthenticated = !!Object.keys(action.payload.user).length;
         state.token = action.payload.token;
         state.user = action.payload.user;
       })
@@ -44,5 +60,7 @@ const userSlice = createSlice({
       });
   },
 });
+
+export const { signOutUser, getCurrentUser } = userSlice.actions;
 
 export default userSlice.reducer;
