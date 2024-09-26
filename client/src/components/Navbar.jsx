@@ -2,11 +2,20 @@ import { Input, Layout } from 'antd';
 const { Search } = Input;
 const { Header } = Layout;
 import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signOutUser } from '../features/userSlice';
 
 export default function Navbar() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isSignin, setIsSignin] = useState(false);
   const [amount, setAmount] = useState(0);
+
+  const { isAuthenticated } = useSelector((state) => state.userSlice);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <Header className='flex items-center bg-slate-800 text-slate-50 px-16 py-4 w-auto'>
       <span className=' text-xl font-bold mr-10'>
@@ -20,7 +29,11 @@ export default function Navbar() {
       <div className='flex gap-4'>
         <div>
           <UserOutlined className='text-xl mr-2' />
-          <span>{isLogin ? 'Sign out' : 'Sign in'}</span>
+          {isAuthenticated ? (
+            <span onClick={() => dispatch(signOutUser())}>Sign out</span>
+          ) : (
+            <span onClick={() => navigate('/signin')}>Sign in</span>
+          )}
         </div>
         <div>
           <ShoppingCartOutlined className='text-2xl mr-2' />
