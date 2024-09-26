@@ -1,5 +1,3 @@
-import { Layout } from 'antd';
-const { Content } = Layout;
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import AuthForm from '../components/AuthForm';
@@ -30,9 +28,6 @@ export default function LogIn() {
   const onSubmit = (data) => {
     dispatch(fetchUser(data)).then((action) => {
       if (fetchUser.fulfilled.match(action)) {
-        const { user, token } = action.payload;
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('token', token);
         navigate(from, { replace: true });
       } else if (fetchUser.rejected.match(action)) {
         setErr(action.payload);
