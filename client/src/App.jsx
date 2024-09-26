@@ -6,6 +6,8 @@ import PwUpdateNoti from './pages/PwUpdateNoti';
 import ProtectedRoute from './components/ProtectedRoute';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/Layout';
+import AddProduct from './pages/AddProduct';
+import DetailCard from './components/DetailCard';
 
 export default function App() {
   return (
@@ -39,6 +41,14 @@ export default function App() {
                   <Products />
                 </ProtectedRoute>
               }
+            />
+            <Route
+              path='add-product'
+              element={<AddProduct />}
+            />
+            <Route
+              path='product-detail'
+              element={<DetailCard />}
             />
           </Route>
         </Routes>
