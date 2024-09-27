@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const User = require('../models/User');
 
 const getAllProducts = async (req, res) => {
   try {
@@ -22,8 +23,14 @@ const getOneProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
+    const user = await User.findById(req.body.userId);
+    if (!user) return res.status(404).json({ message: 'User not found!' });
+
     const product = new Product(req.body);
     await product.save();
+
+    user.products.push(product._id);
+    await user.save();
     res.status(201).json(product);
   } catch (err) {
     console.log(err.message);

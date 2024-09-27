@@ -8,7 +8,6 @@ import ProductCard from '../components/ProductCard';
 export default function Products() {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('useEffect called');
     dispatch(fetchProducts());
   }, [dispatch]);
 

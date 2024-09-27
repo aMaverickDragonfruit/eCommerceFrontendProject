@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Button, Flex } from 'antd';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const { Meta } = Card;
 
 export default function ProductCard({ product }) {
@@ -8,11 +9,15 @@ export default function ProductCard({ product }) {
     product;
   //   const [counts, setCounts] = useState(0);
   //   console.log(imgLink, productName, price);
+  const navigate = useNavigate();
   return (
     <Card
       className='w-80 border-2'
       hoverable
       cover={<img className='' alt='example' src={imgUrl} />}
+      onClick={() => {
+        navigate(`/products/${_id}`);
+      }}
     >
       <Meta title={name} description={price} />
       <Flex>
