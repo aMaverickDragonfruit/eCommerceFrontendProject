@@ -3,6 +3,7 @@ import api from '../services/api';
 
 const initialState = {
   products: [],
+  curProduct: {},
   loading: false,
   error: null,
 };
@@ -22,12 +23,27 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
+export const fetchProduct = createAsyncThunk(
+  'products/fetchProduct',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/api/products/${id}`);
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || error?.message || 'An error occurred';
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // fetch all products
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -38,6 +54,20 @@ const productSlice = createSlice({
         state.products = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+      // fetch product by id
+      .addCase(fetchProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.curProduct = action.payload;
+      })
+      .addCase(fetchProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || action.error.message;
       });
