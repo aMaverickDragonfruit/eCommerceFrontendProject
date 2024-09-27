@@ -37,6 +37,20 @@ export const fetchProduct = createAsyncThunk(
   }
 );
 
+export const createProduct = createAsyncThunk(
+  'products/createProduct',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/api/products', data);
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || error?.message || 'An error occurred';
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: 'products',
   initialState,
@@ -68,6 +82,19 @@ const productSlice = createSlice({
         state.curProduct = action.payload;
       })
       .addCase(fetchProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+      // create product
+      .addCase(createProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createProduct.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(createProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || action.error.message;
       });

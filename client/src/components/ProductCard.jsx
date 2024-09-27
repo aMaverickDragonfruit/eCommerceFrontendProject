@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Button, Flex } from 'antd';
 const { Meta } = Card;
 import AddToCartButton from './AddToCartBtn';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function ProductCard({ product }) {
@@ -11,25 +10,17 @@ export default function ProductCard({ product }) {
   //   const [counts, setCounts] = useState(0);
   //   console.log(imgLink, productName, price);
   const navigate = useNavigate();
+
   return (
     <Card
       className='w-80 border-2'
       hoverable
-      cover={
-        <img
-          className=''
-          alt='example'
-          src={imgUrl}
-        />
-      }
+      cover={<img className='' alt='example' src={imgUrl} />}
       onClick={() => {
         navigate(`/products/${_id}`);
       }}
     >
-      <Meta
-        title={name}
-        description={price}
-      />
+      <Meta title={name} description={price} />
       <Flex>
         <AddToCartButton type='primary'>Add</AddToCartButton>
         <Button type='text'>Edit</Button>
