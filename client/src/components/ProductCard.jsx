@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, Button, Flex } from 'antd';
+const { Meta } = Card;
+import AddToCartButton from './AddToCartBtn';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const { Meta } = Card;
 
 export default function ProductCard({ product }) {
   const { _id, userId, name, description, category, price, stock, imgUrl } =
@@ -14,14 +15,23 @@ export default function ProductCard({ product }) {
     <Card
       className='w-80 border-2'
       hoverable
-      cover={<img className='' alt='example' src={imgUrl} />}
+      cover={
+        <img
+          className=''
+          alt='example'
+          src={imgUrl}
+        />
+      }
       onClick={() => {
         navigate(`/products/${_id}`);
       }}
     >
-      <Meta title={name} description={price} />
+      <Meta
+        title={name}
+        description={price}
+      />
       <Flex>
-        <Button type='primary'>Add</Button>
+        <AddToCartButton type='primary'>Add</AddToCartButton>
         <Button type='text'>Edit</Button>
       </Flex>
     </Card>
