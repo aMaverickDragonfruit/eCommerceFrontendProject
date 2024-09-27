@@ -1,4 +1,5 @@
 import { Flex, Image, Typography, Button } from 'antd';
+import AddToCartButton from './AddToCartBtn';
 const { Title, Text } = Typography;
 
 export default function DetailCard({ product }) {
@@ -6,14 +7,17 @@ export default function DetailCard({ product }) {
     product;
   return (
     <Flex>
-      <Image width={400} src={imgUrl} />
+      <Image
+        width={400}
+        src={imgUrl}
+      />
       <Flex vertical>
         <Text>{category}</Text>
         <Title>{name}</Title>
         <Title level={3}>{price}</Title>
         <Text className='w-80'>{description}</Text>
         <Flex>
-          <Button type='primary'>Add To Cart</Button>
+          <AddToCartButton type='primary'>Add To Cart</AddToCartButton>
           <Button>Edit</Button>
         </Flex>
       </Flex>
