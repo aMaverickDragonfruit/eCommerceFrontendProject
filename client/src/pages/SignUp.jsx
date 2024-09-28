@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
+import Checkbox from 'antd/es/checkbox/Checkbox';
+import { useState } from 'react';
 // import { authUser } from 'app/userSlice';
+import { createUser } from '../features/userSlice';
+import { createCart } from '../features/cartSlice';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 export default function LogIn() {
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
-  //   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fields = [
     {
       placeholder: 'Email',
-      name: 'Email',
+      name: 'email',
       type: 'text',
       rules: [
         {
@@ -21,7 +26,7 @@ export default function LogIn() {
     },
     {
       placeholder: 'Password',
-      name: 'Password',
+      name: 'password',
       type: 'password',
       rules: [
         {
@@ -32,11 +37,23 @@ export default function LogIn() {
     },
   ];
 
+  const [vender, setVender] = useState(false);
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(authUser(data)).then(() => {
-    //   navigate(location.state?.from || '/');
-    // });
+    data.isVender = vender;
+    dispatch(createUser(data)).then((action) => {
+      if (createUser.fulfilled.match(action)) {
+        const userId = action.payload._id;
+        dispatch(createCart(userId)).then((action) => {
+          if (createCart.fulfilled.match(action)) {
+            navigate('/signin');
+          } else if (createCart.rejected.match(action)) {
+            console.log(action.payload);
+          }
+        });
+      } else if (createUser.rejected.match(action)) {
+        console.log(action.payload);
+      }
+    });
   };
 
   const onClosed = () => {
@@ -52,7 +69,9 @@ export default function LogIn() {
         title='Sign up an account'
         fields={fields}
       />
-
+      <Checkbox onChange={(e) => setVender(e.target.checked)}>
+        I am a vender
+      </Checkbox>
       <p>
         Already have an account <Link to='/signin'>Sign in</Link>
       </p>
