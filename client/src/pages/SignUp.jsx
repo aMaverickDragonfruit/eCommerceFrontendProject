@@ -4,6 +4,7 @@ import Checkbox from 'antd/es/checkbox/Checkbox';
 import { useState } from 'react';
 // import { authUser } from 'app/userSlice';
 import { createUser } from '../features/userSlice';
+import { createCart } from '../features/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -39,9 +40,19 @@ export default function LogIn() {
   const [vender, setVender] = useState(false);
   const onSubmit = (data) => {
     data.isVender = vender;
-    console.log(data);
-    dispatch(createUser(data)).then(() => {
-      navigate('/signin');
+    dispatch(createUser(data)).then((action) => {
+      if (createUser.fulfilled.match(action)) {
+        const userId = action.payload._id;
+        dispatch(createCart(userId)).then((action) => {
+          if (createCart.fulfilled.match(action)) {
+            navigate('/signin');
+          } else if (createCart.rejected.match(action)) {
+            console.log(action.payload);
+          }
+        });
+      } else if (createUser.rejected.match(action)) {
+        console.log(action.payload);
+      }
     });
   };
 

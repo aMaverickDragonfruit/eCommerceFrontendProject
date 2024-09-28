@@ -1,4 +1,5 @@
 const Cart = require('../models/Cart');
+const User = require('../models/User');
 
 const getAllCarts = async (req, res) => {
   try {
@@ -22,8 +23,15 @@ const getOneCart = async (req, res) => {
 
 const createCart = async (req, res) => {
   try {
+    const user = await User.findById(req.body.userId);
+    if (!user) return res.status(404).json({ message: 'User not found!' });
+
     const cart = new Cart(req.body);
     await cart.save();
+
+    user.cart = cart._id;
+    await user.save();
+    
     res.status(201).json(cart);
   } catch (err) {
     console.log(err.message);

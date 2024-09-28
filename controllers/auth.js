@@ -18,6 +18,7 @@ const login = async (req, res, next) => {
         id: user._id,
         isVender: user.isVender,
         products: user.products,
+        cart: user.cart,
       },
     };
 
