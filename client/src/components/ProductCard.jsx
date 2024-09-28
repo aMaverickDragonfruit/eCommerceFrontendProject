@@ -11,19 +11,38 @@ export default function ProductCard({ product }) {
   //   console.log(imgLink, productName, price);
   const navigate = useNavigate();
 
+  const handleClick = (e) => {
+    e.stopPropagation();
+    console.log('edit');
+  };
+
   return (
     <Card
       className='w-80 border-2'
       hoverable
-      cover={<img className='' alt='example' src={imgUrl} />}
+      cover={
+        <img
+          className=''
+          alt='example'
+          src={imgUrl}
+        />
+      }
       onClick={() => {
         navigate(`/products/${_id}`);
       }}
     >
-      <Meta title={name} description={price} />
+      <Meta
+        title={name}
+        description={price}
+      />
       <Flex>
         <AddToCartButton type='primary'>Add</AddToCartButton>
-        <Button type='text'>Edit</Button>
+        <Button
+          onClick={handleClick}
+          type='text'
+        >
+          Edit
+        </Button>
       </Flex>
     </Card>
   );
