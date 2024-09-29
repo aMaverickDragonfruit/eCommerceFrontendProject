@@ -1,7 +1,7 @@
 import { Layout } from 'antd';
 const { Content } = Layout;
 import { Outlet } from 'react-router-dom';
-import Navbar from './Navbar';
+import Navbar from './Navbar/Navbar';
 import Footer from './Footer';
 
 export default function MainLayout() {
