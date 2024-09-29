@@ -1,18 +1,11 @@
 import { Button, Typography } from 'antd';
 const { Title } = Typography;
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../features/productSlice';
+import { useSelector } from 'react-redux';
 import ProductCard from '../components/ProductCard';
 import Selector from '../components/Selector';
 import { useNavigate } from 'react-router-dom';
 
 export default function Products() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
-
   const { products, loading } = useSelector((state) => state.productSlice);
   const navigate = useNavigate();
 

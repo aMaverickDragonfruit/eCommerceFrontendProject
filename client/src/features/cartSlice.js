@@ -25,7 +25,14 @@ export const fetchCart = createAsyncThunk(
 export const createCart = createAsyncThunk(
   'cart/createCart',
   async (userId, { rejectWithValue }) => {
-    const body = { userId: userId };
+    const body = {
+      products: [],
+      userId: userId,
+      coupon: '',
+      subtotal: 0,
+      tax: 0,
+      estimateTotal: 0,
+    };
     try {
       const response = await api.post('api/carts', body);
       return response.data;
@@ -37,12 +44,77 @@ export const createCart = createAsyncThunk(
   }
 );
 
-export const updateCart = createAsyncThunk(
-  'cart/updateCart',
-  async (data, { rejectWithValue }) => {
-    const { body, id } = data;
+export const updateCoupon = createAsyncThunk(
+  'cart/updateCoupon',
+  async (data, { getState, rejectWithValue }) => {
+    const { id, coupon } = data;
+    const discount = coupon === '20 DOLLAR OFF' ? 20 : 0;
+    const state = getState();
+    const cart = state.cartSlice.cart;
+    const estimateTotal = cart.subtotal + cart.tax - discount;
+    console.log(estimateTotal);
+
     try {
-      const response = await api.put(`/api/carts/${id}`, body);
+      const response = await api.put(`/api/carts/${id}`, {
+        coupon: coupon,
+        discount: discount,
+        estimateTotal: estimateTotal,
+      });
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || error?.message || 'An error occurred';
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const updateItemQuantity = createAsyncThunk(
+  'cart/updateItemQuantity',
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      const { cartId, productId, quantity } = data;
+      let updatedCartProducts = {};
+      const state = getState();
+
+      const cart = state.cartSlice.cart;
+      const products = state.productSlice.products;
+
+      console.log(products);
+      const productPriceMap = new Map();
+      products.forEach((product) => {
+        productPriceMap.set(product._id, product.price);
+      });
+
+      const found = !!cart.products.find(
+        (product) => product.product === productId
+      );
+      if (found) {
+        updatedCartProducts = cart.products.map((product) =>
+          product.product === productId ? { ...product, quantity } : product
+        );
+      } else {
+        updatedCartProducts = [
+          ...cart.products,
+          { product: productId, quantity: 1 },
+        ];
+      }
+
+      const subtotal = updatedCartProducts.reduce(
+        (cur, proudct) =>
+          cur + proudct.quantity * productPriceMap.get(proudct.product),
+        0
+      );
+
+      const tax = 0.095 * subtotal;
+
+      const estimateTotal = subtotal + tax - cart.discount;
+      const response = await api.put(`/api/carts/${cartId}`, {
+        products: updatedCartProducts,
+        subtotal: subtotal,
+        tax: tax,
+        estimateTotal: estimateTotal,
+      });
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -85,16 +157,31 @@ const cartSlice = createSlice({
         state.loading = false;
         state.error = action.payload || action.error.message;
       })
-      //update cart
-      .addCase(updateCart.pending, (state) => {
+      //update Cart coupon
+      .addCase(updateCoupon.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(updateCart.fulfilled, (state) => {
+      .addCase(updateCoupon.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        state.cart = action.payload;
       })
-      .addCase(updateCart.rejected, (state, action) => {
+      .addCase(updateCoupon.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+      //update cart item quantity
+      .addCase(updateItemQuantity.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateItemQuantity.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.cart = action.payload;
+      })
+      .addCase(updateItemQuantity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || action.error.message;
       });

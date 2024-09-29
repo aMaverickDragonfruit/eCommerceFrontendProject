@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import AuthForm from '../components/AuthForm';
 import { fetchUser } from '../features/userSlice';
+import { fetchCart } from '../features/cartSlice';
 import { useState } from 'react';
 
 export default function LogIn() {
@@ -28,7 +29,13 @@ export default function LogIn() {
   const onSubmit = (data) => {
     dispatch(fetchUser(data)).then((action) => {
       if (fetchUser.fulfilled.match(action)) {
-        navigate(from, { replace: true });
+        dispatch(fetchCart(action.payload.user.cart)).then((action) => {
+          if (fetchCart.fulfilled.match(action)) {
+            navigate(from, { replace: true });
+          } else if (fetchCart.rejected.match(action)) {
+            console.log(action.payload);
+          }
+        });
       } else if (fetchUser.rejected.match(action)) {
         setErr(action.payload);
       }
@@ -52,7 +59,7 @@ export default function LogIn() {
 
       <div className='flex justify-between'>
         <p>
-          Don&apos;t have an account <Link to='/signup'>Sign up</Link>
+          Don&apos;t have an account? <Link to='/signup'>Sign up</Link>
         </p>
         <Link to='/forgot-password'>Forgot password?</Link>
       </div>
