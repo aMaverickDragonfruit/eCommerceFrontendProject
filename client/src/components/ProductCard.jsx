@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, Flex } from 'antd';
 const { Meta } = Card;
 import AddToCartButton from './AddToCartBtn';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function ProductCard({ product }) {
+  const navigate = useNavigate();
   const { _id, userId, name, description, category, price, stock, imgUrl } =
     product;
-  //   const [counts, setCounts] = useState(0);
-  //   console.log(imgLink, productName, price);
-  const navigate = useNavigate();
 
-  const handleClick = (e) => {
+  const handleEdit = (e) => {
     e.stopPropagation();
     console.log('edit');
+  };
+
+  const handleAddProduct = (e) => {
+    e.stopPropagation();
+    console.log('add product');
   };
 
   return (
@@ -36,9 +40,16 @@ export default function ProductCard({ product }) {
         description={price}
       />
       <Flex>
-        <AddToCartButton type='primary'>Add</AddToCartButton>
+        <AddToCartButton
+          type='primary'
+          productId={_id}
+          onClick={handleAddProduct}
+        >
+          Add more
+        </AddToCartButton>
+
         <Button
-          onClick={handleClick}
+          onClick={handleEdit}
           type='text'
         >
           Edit
