@@ -55,14 +55,21 @@ const CartItem = ({ product }) => {
 
   return (
     <div className='flex'>
-      <img src={imgUrl} alt='' className='w-20 h-20' />
+      <img
+        src={imgUrl}
+        alt=''
+        className='w-20 h-20'
+      />
       <div>
         <div className='flex justify-between'>
           <p>{name}</p>
           <p>{price}</p>
         </div>
         <div className='flex justify-between'>
-          <NumberEditor count={quantity} productId={id} />
+          <NumberEditor
+            count={quantity}
+            productId={id}
+          />
           <button>Remove</button>
         </div>
       </div>
@@ -87,14 +94,20 @@ const Coupon = ({ coupon }) => {
           placeholder={'Type your coupon here'}
           onChange={(e) => setUserCoupon(e.target.value)}
         />
-        <Button type='primary' onClick={handleClick}>
+        <Button
+          type='primary'
+          onClick={handleClick}
+        >
           Apply
         </Button>
       </div>
       <Text type='secondary'>Applied coupon:</Text>
       {coupon === '20 DOLLAR OFF' && (
         <span>
-          <Text type='success' className='pl-4'>
+          <Text
+            type='success'
+            className='pl-4'
+          >
             {coupon}
           </Text>
         </span>
@@ -105,15 +118,18 @@ const Coupon = ({ coupon }) => {
 
 const Total = ({ discount, coupon, tax, subtotal, estimateTotal }) => {
   const amount = [
-    `$${subtotal.toFixed(2)}`,
-    `$${tax.toFixed(2)}`,
-    `-$${discount.toFixed(2)}`,
-    `$${estimateTotal.toFixed(2)}`,
+    `$${subtotal}`,
+    `$${tax}`,
+    `-$${discount}`,
+    `$${estimateTotal}`,
   ];
   return (
     <>
       {['Subtotal', 'Tax', 'Discount', 'Estimated total'].map((item, index) => (
-        <div className='flex justify-between' key={index}>
+        <div
+          className='flex justify-between'
+          key={index}
+        >
           <p>{item}</p>
           <p>{amount[index]}</p>
         </div>

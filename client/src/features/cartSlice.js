@@ -96,8 +96,12 @@ export const updateItemQuantity = createAsyncThunk(
       } else {
         updatedCartProducts = [
           ...cart.products,
-          { product: productId, quantity: 1 },
+          { product: productId, quantity: quantity },
         ];
+        // console.log([
+        //   ...cart.products,
+        //   { product: productId, quantity: quantity },
+        // ]);
       }
 
       const subtotal = updatedCartProducts.reduce(
