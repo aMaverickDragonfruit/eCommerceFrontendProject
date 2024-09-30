@@ -22,7 +22,7 @@ export default function ProductDetails() {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <div className='h-svh px-20 pt-10'>
+    <div className='px-20 pt-10'>
       <p className='text-4xl font-bold mb-10'>Product Detail</p>
       <DetailCard product={curProduct} />
     </div>

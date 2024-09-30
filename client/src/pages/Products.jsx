@@ -34,7 +34,7 @@ export default function Products() {
 
   return (
     <div className='pt-10 px-20'>
-      <div className='flex'>
+      <div className='flex flex-col lg:flex-row justify-between'>
         <p className='text-4xl font-bold'>Products</p>
         <div className='flex items-center space-x-10'>
           <Selector
