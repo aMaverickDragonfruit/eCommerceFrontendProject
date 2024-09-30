@@ -31,23 +31,22 @@ export default function NumberEditor({ count, productId }) {
     }
   };
   return (
-    <div className='border-2 w-20 flex items-center justify-between w-full'>
-      {/* Decrease Button */}
-      <span
-        onClick={handleDecrease}
-        className='w-6 text-center cursor-pointer select-none font-bold text-lg'
-      >
-        &minus;
-      </span>
-      {/* Quantity */}
-      <span className='border-x-2 flex-grow text-center'>{count}</span>
-      {/* Increase Button */}
-      <span
-        onClick={handleIncrease}
-        className='w-6 text-center cursor-pointer select-none font-bold text-lg'
-      >
-        &#43;
-      </span>
-    </div>
+    <table className='border-2 w-1/2 text-center '>
+      <tr>
+        <td
+          className='cursor-pointer'
+          onClick={handleDecrease}
+        >
+          &minus;
+        </td>
+        <td className='border-l-2 border-r-2'>{count}</td>
+        <td
+          className='cursor-pointer'
+          onClick={handleIncrease}
+        >
+          &#43;
+        </td>
+      </tr>
+    </table>
   );
 }

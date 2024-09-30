@@ -7,6 +7,7 @@ export default function Selector({ options, defaultValue, handleChange }) {
       defaultValue={defaultValue ? defaultValue : options[0]}
       options={options}
       onChange={handleChange}
+      className='w-36'
     />
   );
 }

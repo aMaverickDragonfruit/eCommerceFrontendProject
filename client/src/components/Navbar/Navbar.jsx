@@ -21,8 +21,8 @@ export default function Navbar() {
   };
 
   return (
-    <div>
-      <Header className='flex items-center justify-between bg-slate-900 text-slate-50 px-16 py-4 w-full h-auto flex-wrap md:flex-nowrap'>
+    <div className='relative'>
+      <Header className='flex items-center justify-between bg-slate-900 text-slate-50 px-16 pb-4 md:pb-0 w-full h-auto flex-wrap md:flex-nowrap'>
         <Logo
           handleClick={() => navigate('./products')}
           className={`order-1 md:order-1`}
@@ -38,9 +38,15 @@ export default function Navbar() {
         />
       </Header>
       {isCartOpen && (
-        <div className='w-96'>
-          <Cart onClose={handleCartClose} />
-        </div>
+        <>
+          <div className='w-96 absolute top-0 right-0 z-50'>
+            <Cart onClose={handleCartClose} />
+          </div>
+          <div
+            className='fixed inset-0 bg-slate-500 bg-opacity-50 z-40'
+            onClick={handleCartClose}
+          ></div>
+        </>
       )}
     </div>
   );

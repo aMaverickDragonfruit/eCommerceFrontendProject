@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateItemQuantity } from '../features/cartSlice';
+import { updateItemQuantity } from '../../features/cartSlice';
+// import { updateItemQuantity } from '../../../features/cartSlice';
 
 const AddToCartButton = ({ productId }) => {
   const cart = useSelector((state) => state.cartSlice.cart);

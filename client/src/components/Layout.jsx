@@ -16,7 +16,7 @@ export default function MainLayout() {
     >
       <Layout className='min-h-screen'>
         <Navbar />
-        <Content className='flex-grow flex justify-center items-center'>
+        <Content className='flex justify-center items-center'>
           <Outlet />
         </Content>
         <Footer />
