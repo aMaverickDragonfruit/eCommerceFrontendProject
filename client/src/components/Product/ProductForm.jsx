@@ -1,9 +1,9 @@
 import { Button, Form, Input, Flex, Select, Space, Skeleton } from 'antd';
 const { TextArea } = Input;
-import { createProduct } from '../features/productSlice';
+import { createProduct } from '../../features/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import Selector from './Selector';
+import Selector from '../Selector';
 // import Spinner from './Spinner';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -26,21 +26,35 @@ export default function ProductForm() {
     dispatch(createProduct(data));
   };
   return (
-    <Spin indicator={<LoadingOutlined spin />} size='large' spinning={loading}>
+    <Spin
+      indicator={<LoadingOutlined spin />}
+      size='large'
+      spinning={loading}
+    >
       <Form
         className='border-2 bg-slate-white p-10'
         layout='vertical'
         onFinish={onSubmit}
         autoComplete='off'
       >
-        <Form.Item name='name' label='Product Name'>
+        <Form.Item
+          name='name'
+          label='Product Name'
+        >
           <Input placeholder='iWatch'></Input>
         </Form.Item>
-        <Form.Item name='description' label='Product Description'>
+        <Form.Item
+          name='description'
+          label='Product Description'
+        >
           <TextArea rows={4}></TextArea>
         </Form.Item>
-        <Flex>
-          <Form.Item name='category' label='Category'>
+        <div className='flex flex-col md:flex-row justify-between space-0 md:space-x-4'>
+          <Form.Item
+            name='category'
+            label='Category'
+            className='w-full md:w-1/2'
+          >
             <Selector
               options={categoryOptions}
               defaultValue='-select-'
@@ -48,22 +62,34 @@ export default function ProductForm() {
             />
           </Form.Item>
 
-          <Form.Item name='price' label='Price'>
+          <Form.Item
+            name='price'
+            label='Price'
+            className='w-full md:w-1/2'
+          >
             <Input placeholder='50'></Input>
           </Form.Item>
-        </Flex>
-        <Flex>
-          <Form.Item name='stock' label='In Stock Quantity'>
+        </div>
+        <div className='flex flex-col md:flex-row justify-between space-0 md:space-x-4'>
+          <Form.Item
+            name='stock'
+            label='In Stock Quantity'
+            className='w-full md:w-1/3'
+          >
             <Input placeholder='100'></Input>
           </Form.Item>
-          <Form.Item name='imgUrl' label='Add Image Link'>
-            <Space.Compact>
+          <Form.Item
+            name='imgUrl'
+            label='Add Image Link'
+            className='w-full md:w-2/3'
+          >
+            <Space.Compact className='w-full'>
               <Input defaultValue='http://' />
               <Button type='primary'>View</Button>
             </Space.Compact>
           </Form.Item>
-        </Flex>
-        <Skeleton.Image />
+        </div>
+        <Skeleton.Image className='' />
         <Button
           type='primary'
           htmlType='submit'

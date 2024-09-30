@@ -6,6 +6,21 @@ import {
   FacebookFilled,
 } from '@ant-design/icons';
 
+const Options = ({ options, optionsStyle, itemsStyle }) => {
+  return (
+    <div className={`flex gap-4 flex-nowrap ${optionsStyle}`}>
+      {options.map((option, index) => (
+        <div
+          key={index}
+          className={`${itemsStyle}`}
+        >
+          {option}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function AppFooter() {
   const icons = [
     <YoutubeFilled />,
@@ -13,26 +28,22 @@ export default function AppFooter() {
     <FacebookFilled />,
   ];
 
-  const options = ['Contact us', 'Privacy Police', 'Help'];
+  const services = ['Contact us', 'Privacy Police', 'Help'];
 
   return (
-    <Footer className='flex flex-row justify-between bg-slate-800 text-slate-50 px-16 py-4 w-auto'>
-      <p>@2022 All Right Reserved</p>
-      <div className='flex gap-4'>
-        {icons.map((icon, index) => (
-          <div
-            key={index}
-            className='text-xl mr-2'
-          >
-            {icon}
-          </div>
-        ))}
-      </div>
-      <div className='flex gap-4'>
-        {options.map((option, index) => (
-          <span key={index}>{option}</span>
-        ))}
-      </div>
+    <Footer className='flex gap-2 flex-wrap md:flex-nowrap flex-col md:flex-row items-center md:justify-between px-16 py-4 w-full h-auto bg-slate-900 text-slate-50 '>
+      <p className='order-3 md:order-1'>@2022 All Right Reserved</p>
+
+      <Options
+        options={icons}
+        optionsStyle={'order-1 md:order-2'}
+        itemsStyle={'text-xl mr-2'}
+      ></Options>
+
+      <Options
+        options={services}
+        optionsStyle={'order-2 md:order-3'}
+      ></Options>
     </Footer>
   );
 }

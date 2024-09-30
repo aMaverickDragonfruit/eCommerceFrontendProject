@@ -29,15 +29,16 @@ export default function NavOptions({ handleCart, className }) {
             icon={<UserOutlined className='text-xl' />}
             handleClick={() => dispatch(signOutUser())}
           >
-            <div className='max-md:hidden'>Sign out</div>
+            <div
+              className='max-md:hidden'
+              aria-label='Sign out'
+            >
+              Sign out
+            </div>
           </Option>
           <Option
-            icon={
-              <ShoppingCartOutlined
-                className='text-2xl'
-                handleClick={handleCart}
-              />
-            }
+            icon={<ShoppingCartOutlined className='text-2xl' />}
+            handleClick={handleCart}
           >
             {cart.subtotal}
           </Option>
@@ -48,15 +49,16 @@ export default function NavOptions({ handleCart, className }) {
             icon={<UserOutlined className='text-xl' />}
             handleClick={() => navigate('/signin')}
           >
-            <div className='max-md:hidden'>Sign in</div>
+            <div
+              className='max-md:hidden'
+              aria-label='Sign in'
+            >
+              Sign in
+            </div>
           </Option>
           <Option
-            icon={
-              <ShoppingCartOutlined
-                className='text-2xl'
-                handleClick={() => navigate('/signin')}
-              />
-            }
+            icon={<ShoppingCartOutlined className='text-2xl' />}
+            handleClick={() => navigate('/signin')}
           >
             {(0).toFixed(2)}
           </Option>

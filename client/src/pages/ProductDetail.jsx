@@ -1,6 +1,6 @@
 import { Typography } from 'antd';
 const { Title } = Typography;
-import DetailCard from '../components/DetailCard';
+import DetailCard from '../components/Product/DetailCard';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,8 +22,8 @@ export default function ProductDetails() {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <div className='flex flex-col'>
-      <Title>Product Detail</Title>
+    <div className='px-20 pt-10'>
+      <p className='text-4xl font-bold mb-10'>Product Detail</p>
       <DetailCard product={curProduct} />
     </div>
   );

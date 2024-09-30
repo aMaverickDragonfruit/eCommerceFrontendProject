@@ -9,9 +9,9 @@ import { updateCoupon } from '../../features/cartSlice';
 
 const CartHeader = ({ count, onClose }) => {
   return (
-    <div className='min-w-96 text-white bg-indigo-500 px-10 pt-5 flex justify-between'>
+    <div className='box-border text-white bg-indigo-600 px-6 py-3 flex justify-between'>
       <div className='flex'>
-        <p className='text-2xl'>Cart</p>
+        <p className='text-2xl'>Cart&nbsp;</p>
         <p className='text-2xl'>{count}</p>
       </div>
       <CloseOutlined
@@ -29,8 +29,6 @@ const CartItem = ({ product }) => {
 
   const { product: id, quantity } = product;
   const dispatch = useDispatch();
-  // console.log(id);
-  // console.log(quantity);
   useEffect(() => {
     let isMounted = true; // To prevent setting state if the component is unmounted
 
@@ -54,13 +52,13 @@ const CartItem = ({ product }) => {
   }, [dispatch, id]);
 
   return (
-    <div className='flex'>
+    <div className='cart-item box-border py-2 flex w-full justify-between'>
       <img
         src={imgUrl}
         alt=''
-        className='w-20 h-20'
+        className='w-20 h-20 object-contain'
       />
-      <div>
+      <div className='item-info w-2/3 flex flex-col justify-between'>
         <div className='flex justify-between'>
           <p>{name}</p>
           <p>{price}</p>
@@ -87,9 +85,10 @@ const Coupon = ({ coupon }) => {
     dispatch(updateCoupon({ id: cart._id, coupon: userCoupon }));
   };
   return (
-    <>
+    <div className='box-border py-4'>
       <p>Apply Discount Code</p>
-      <div className='flex'>
+      {/* coupon input */}
+      <div className='py-2 flex gap-2 justify-between'>
         <Input
           placeholder={'Type your coupon here'}
           onChange={(e) => setUserCoupon(e.target.value)}
@@ -102,6 +101,7 @@ const Coupon = ({ coupon }) => {
         </Button>
       </div>
       <Text type='secondary'>Applied coupon:</Text>
+      {/* show valid coupon in the account */}
       {coupon === '20 DOLLAR OFF' && (
         <span>
           <Text
@@ -112,7 +112,7 @@ const Coupon = ({ coupon }) => {
           </Text>
         </span>
       )}
-    </>
+    </div>
   );
 };
 
@@ -127,10 +127,10 @@ const Total = ({ discount, coupon, tax, subtotal, estimateTotal }) => {
     <>
       {['Subtotal', 'Tax', 'Discount', 'Estimated total'].map((item, index) => (
         <div
-          className='flex justify-between'
+          className='flex justify-between pt-2'
           key={index}
         >
-          <p>{item}</p>
+          <p className='font-semibold'>{item}</p>
           <p>{amount[index]}</p>
         </div>
       ))}

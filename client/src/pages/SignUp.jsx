@@ -61,7 +61,7 @@ export default function LogIn() {
   };
 
   return (
-    <div className='box-content w-96 border-2 rounded-md px-10 py-12 shadow-md'>
+    <div className='box-content w-96 h-fit border-2 rounded-md px-10 py-12 shadow-md'>
       <AuthForm
         buttonText='Create account'
         onSubmit={onSubmit}
