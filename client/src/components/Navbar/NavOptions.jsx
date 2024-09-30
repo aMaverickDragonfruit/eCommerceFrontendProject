@@ -29,7 +29,12 @@ export default function NavOptions({ handleCart, className }) {
             icon={<UserOutlined className='text-xl' />}
             handleClick={() => dispatch(signOutUser())}
           >
-            <div className='max-md:hidden'>Sign out</div>
+            <div
+              className='max-md:hidden'
+              aria-label='Sign out'
+            >
+              Sign out
+            </div>
           </Option>
           <Option
             icon={
@@ -48,7 +53,12 @@ export default function NavOptions({ handleCart, className }) {
             icon={<UserOutlined className='text-xl' />}
             handleClick={() => navigate('/signin')}
           >
-            <div className='max-md:hidden'>Sign in</div>
+            <div
+              className='max-md:hidden'
+              aria-label='Sign in'
+            >
+              Sign in
+            </div>
           </Option>
           <Option
             icon={
