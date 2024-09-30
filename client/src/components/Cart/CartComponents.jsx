@@ -9,7 +9,7 @@ import { updateCoupon } from '../../features/cartSlice';
 
 const CartHeader = ({ count, onClose }) => {
   return (
-    <div className='min-w-96 text-white bg-indigo-500 px-10 pt-5 flex justify-between'>
+    <div className='min-w-96 text-white bg-indigo-600 px-10 pt-5 flex justify-between'>
       <div className='flex'>
         <p className='text-2xl'>Cart</p>
         <p className='text-2xl'>{count}</p>

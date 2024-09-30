@@ -31,7 +31,7 @@ export default function AppFooter() {
   const services = ['Contact us', 'Privacy Police', 'Help'];
 
   return (
-    <Footer className='flex gap-2 flex-wrap md:flex-nowrap flex-col md:flex-row items-center md:justify-between px-16 py-4 w-full h-auto bg-slate-800 text-slate-50 '>
+    <Footer className='flex gap-2 flex-wrap md:flex-nowrap flex-col md:flex-row items-center md:justify-between px-16 py-4 w-full h-auto bg-slate-900 text-slate-50 '>
       <p className='order-3 md:order-1'>@2022 All Right Reserved</p>
 
       <Options

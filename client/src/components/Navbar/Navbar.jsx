@@ -22,7 +22,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <Header className='flex items-center justify-between bg-slate-800 text-slate-50 px-16 py-4 w-full h-auto flex-wrap md:flex-nowrap'>
+      <Header className='flex items-center justify-between bg-slate-900 text-slate-50 px-16 py-4 w-full h-auto flex-wrap md:flex-nowrap'>
         <Logo
           handleClick={() => navigate('./products')}
           className={`order-1 md:order-1`}

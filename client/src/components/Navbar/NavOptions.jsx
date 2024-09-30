@@ -37,12 +37,8 @@ export default function NavOptions({ handleCart, className }) {
             </div>
           </Option>
           <Option
-            icon={
-              <ShoppingCartOutlined
-                className='text-2xl'
-                handleClick={handleCart}
-              />
-            }
+            icon={<ShoppingCartOutlined className='text-2xl' />}
+            handleClick={handleCart}
           >
             {cart.subtotal}
           </Option>
@@ -61,12 +57,8 @@ export default function NavOptions({ handleCart, className }) {
             </div>
           </Option>
           <Option
-            icon={
-              <ShoppingCartOutlined
-                className='text-2xl'
-                handleClick={() => navigate('/signin')}
-              />
-            }
+            icon={<ShoppingCartOutlined className='text-2xl' />}
+            handleClick={() => navigate('/signin')}
           >
             {(0).toFixed(2)}
           </Option>
