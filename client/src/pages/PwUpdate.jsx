@@ -23,7 +23,7 @@ export default function PwUpdate() {
   };
 
   return (
-    <div className='box-content w-96 border-2 rounded-md px-10 py-12 shadow-md'>
+    <div className='box-border md:box-content  h-fit mt-8 md:mt-20 w-11/12 md:w-96 border-2 rounded-md px-10 py-12 shadow-md'>
       <AuthForm
         buttonText='Update password'
         onSubmit={onSubmit}

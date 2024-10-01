@@ -22,7 +22,7 @@ export default function AddProduct({ isEdit }) {
 
   const title = isEdit ? 'Edit Product' : 'Create Product';
   return (
-    <div className=''>
+    <div className='mt-10 w-11/12 md:w-3/5 lg:w-2/5'>
       <p className='text-4xl font-bold mb-10'>{title}</p>
       <ProductForm
         isEdit={isEdit}
