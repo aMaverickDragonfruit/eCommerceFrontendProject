@@ -22,12 +22,15 @@ const cartSchema = new mongoose.Schema({
   },
   subtotal: {
     type: Number,
+    set: (v) => parseFloat(v).toFixed(2),
   },
   tax: {
     type: Number,
+    set: (v) => parseFloat(v).toFixed(2),
   },
   estimateTotal: {
     type: Number,
+    set: (v) => parseFloat(v).toFixed(2),
   },
 });
 

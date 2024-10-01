@@ -1,13 +1,14 @@
 import { Select } from 'antd';
 
-// options need to be an array of object. object keys will be value, label, disable
-export default function Selector({ options, defaultValue, handleChange }) {
+// options need to be an array of objects with keys: value, label, disable
+export default function Selector({ options, placeholder, value, onChange }) {
   return (
     <Select
-      defaultValue={defaultValue ? defaultValue : options[0]}
+      placeholder={placeholder}
       options={options}
-      onChange={handleChange}
-      className='w-36'
+      className='w-40'
+      value={value}
+      onChange={onChange}
     />
   );
 }

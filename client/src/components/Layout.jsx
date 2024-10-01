@@ -1,10 +1,14 @@
 import { ConfigProvider, Layout } from 'antd';
 const { Content } = Layout;
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar/Navbar';
 import Footer from './Footer';
+import Home from '../pages/Home';
 
 export default function MainLayout() {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
     <ConfigProvider
       theme={{
@@ -17,7 +21,7 @@ export default function MainLayout() {
       <Layout className='min-h-screen'>
         <Navbar />
         <Content className='flex justify-center items-center'>
-          <Outlet />
+          {currentPath === '/' ? <Home /> : <Outlet />}
         </Content>
         <Footer />
       </Layout>

@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { updateItemQuantity } from '../../features/cartSlice';
+import { updateItemQuantity, deleteItem } from '../../features/cartSlice';
 
 export default function NumberEditor({ count, productId }) {
   const dispatch = useDispatch();
@@ -28,25 +28,27 @@ export default function NumberEditor({ count, productId }) {
       );
     } else {
       // Reset to initial state
+      dispatch(
+        deleteItem({
+          cartId: cart._id,
+          productId: productId,
+        })
+      );
     }
   };
   return (
     <table className='border-2 w-1/2 text-center '>
-      <tr>
-        <td
-          className='cursor-pointer'
-          onClick={handleDecrease}
-        >
-          &minus;
-        </td>
-        <td className='border-l-2 border-r-2'>{count}</td>
-        <td
-          className='cursor-pointer'
-          onClick={handleIncrease}
-        >
-          &#43;
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td className='cursor-pointer' onClick={handleDecrease}>
+            &minus;
+          </td>
+          <td className='border-l-2 border-r-2'>{count}</td>
+          <td className='cursor-pointer' onClick={handleIncrease}>
+            &#43;
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 }

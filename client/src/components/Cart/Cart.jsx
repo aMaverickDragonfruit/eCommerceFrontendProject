@@ -3,25 +3,30 @@ import { CartHeader, CartItem, Coupon, Total } from './CartComponents';
 import { useSelector } from 'react-redux';
 
 export default function Cart({ onClose }) {
-  const { cart } = useSelector((state) => state.cartSlice);
-  let { products, discount, coupon, tax, subtotal, estimateTotal } = cart;
+  const { cart, loading, error } = useSelector((state) => state.cartSlice);
+  let {
+    _id: cartId,
+    products,
+    discount,
+    coupon,
+    tax,
+    subtotal,
+    estimateTotal,
+  } = cart;
   let count = products.reduce((cur, product) => cur + product.quantity, 0);
 
-  // const {}
+  if (loading) return <div>loading</div>;
 
+  if (error) return <ServerError message={error} />;
   return (
     <>
-      <CartHeader
-        count={count}
-        onClose={onClose}
-      />
-      <div className='cart-content box-border bg-white px-6 p-4 pb-8 min-w-96'>
-        {products.map((product) => (
-          <CartItem
-            product={product}
-            key={product.product}
-          />
-        ))}
+      <CartHeader count={count} onClose={onClose} />
+      <div className=' cart-content box-border bg-white px-6 p-4 pb-8 min-w-96'>
+        <div className='overflow-scroll h-48'>
+          {products.map((product) => (
+            <CartItem product={product} cartId={cartId} key={product.product} />
+          ))}
+        </div>
         <Coupon coupon={coupon} />
         <hr className='pb-2' />
         <Total
@@ -31,10 +36,7 @@ export default function Cart({ onClose }) {
           subtotal={subtotal}
           estimateTotal={estimateTotal}
         />
-        <Button
-          type='primary'
-          className='w-full mt-4'
-        >
+        <Button type='primary' className='w-full mt-4'>
           Continue To checkout
         </Button>
       </div>

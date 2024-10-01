@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../services/api';
+import { act } from 'react';
 
 const initialState = {
   cart: {},
@@ -29,6 +30,7 @@ export const createCart = createAsyncThunk(
       products: [],
       userId: userId,
       coupon: '',
+      discount: 0,
       subtotal: 0,
       tax: 0,
       estimateTotal: 0,
@@ -51,13 +53,65 @@ export const updateCoupon = createAsyncThunk(
     const discount = coupon === '20 DOLLAR OFF' ? 20 : 0;
     const state = getState();
     const cart = state.cartSlice.cart;
-    const estimateTotal = cart.subtotal + cart.tax - discount;
+    const estimateTotal = Math.max(0, cart.subtotal + cart.tax - discount);
     console.log(estimateTotal);
 
     try {
       const response = await api.put(`/api/carts/${id}`, {
         coupon: coupon,
         discount: discount,
+        estimateTotal: estimateTotal,
+      });
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || error?.message || 'An error occurred';
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const deleteItem = createAsyncThunk(
+  'cart/deleteItem',
+  async (data, { getState, rejectWithValue }) => {
+    const { cartId, productId } = data;
+    const state = getState();
+    const cart = state.cartSlice.cart;
+    const products = state.productSlice.products;
+
+    const productPriceMap = new Map();
+    products.forEach((product) => {
+      productPriceMap.set(product._id, product.price);
+    });
+
+    const { products: cartItems } = cart;
+
+    // console.log(`cart id: ${cartId}`);
+    // console.log(`product id: ${productId}`);
+
+    const updatedCartItems = cartItems.filter(
+      (product) => product.product !== productId
+    );
+    // console.log(updatedCartItems);
+
+    const subtotal = updatedCartItems.reduce(
+      (cur, proudct) =>
+        cur + proudct.quantity * productPriceMap.get(proudct.product),
+      0
+    );
+
+    const tax = Math.floor(0.095 * subtotal * 100) / 100;
+
+    const estimateTotal = Math.max(0, subtotal + tax - cart.discount);
+
+    // console.log(
+    //   `subtotal: ${subtotal}, tax: ${tax}, estimateTotal: ${estimateTotal}`
+    // );
+    try {
+      const response = await api.put(`/api/carts/${cartId}`, {
+        products: updatedCartItems,
+        subtotal: subtotal,
+        tax: tax,
         estimateTotal: estimateTotal,
       });
       return response.data;
@@ -80,7 +134,8 @@ export const updateItemQuantity = createAsyncThunk(
       const cart = state.cartSlice.cart;
       const products = state.productSlice.products;
 
-      console.log(products);
+      // console.log(cart);
+
       const productPriceMap = new Map();
       products.forEach((product) => {
         productPriceMap.set(product._id, product.price);
@@ -98,11 +153,9 @@ export const updateItemQuantity = createAsyncThunk(
           ...cart.products,
           { product: productId, quantity: quantity },
         ];
-        // console.log([
-        //   ...cart.products,
-        //   { product: productId, quantity: quantity },
-        // ]);
       }
+
+      // console.log(updatedCartProducts);
 
       const subtotal = updatedCartProducts.reduce(
         (cur, proudct) =>
@@ -110,9 +163,16 @@ export const updateItemQuantity = createAsyncThunk(
         0
       );
 
-      const tax = 0.095 * subtotal;
+      // console.log(`subtotal:${subtotal}`);
 
-      const estimateTotal = subtotal + tax - cart.discount;
+      const tax = Math.floor(0.095 * subtotal * 100) / 100;
+
+      // console.log(`tax:${tax}`);
+
+      const estimateTotal = Math.max(0, subtotal + tax - cart.discount);
+
+      // console.log(`estimateTotal:${estimateTotal}`);
+
       const response = await api.put(`/api/carts/${cartId}`, {
         products: updatedCartProducts,
         subtotal: subtotal,
@@ -186,6 +246,20 @@ const cartSlice = createSlice({
         state.cart = action.payload;
       })
       .addCase(updateItemQuantity.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+      //delete Car Item
+      .addCase(deleteItem.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteItem.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.cart = action.payload;
+      })
+      .addCase(deleteItem.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || action.error.message;
       });

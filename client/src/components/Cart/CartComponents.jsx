@@ -5,7 +5,7 @@ import NumberEditor from './NumberEditor';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct } from '../../features/productSlice';
 import { useState, useEffect } from 'react';
-import { updateCoupon } from '../../features/cartSlice';
+import { updateCoupon, deleteItem } from '../../features/cartSlice';
 
 const CartHeader = ({ count, onClose }) => {
   return (
@@ -22,17 +22,17 @@ const CartHeader = ({ count, onClose }) => {
   );
 };
 
-const CartItem = ({ product }) => {
+const CartItem = ({ cartId, product }) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
 
-  const { product: id, quantity } = product;
+  const { product: productId, quantity } = product;
   const dispatch = useDispatch();
   useEffect(() => {
     let isMounted = true; // To prevent setting state if the component is unmounted
 
-    dispatch(fetchProduct(id)).then((action) => {
+    dispatch(fetchProduct(productId)).then((action) => {
       if (fetchProduct.fulfilled.match(action)) {
         if (isMounted) {
           const { name, price, imgUrl } = action.payload;
@@ -49,26 +49,25 @@ const CartItem = ({ product }) => {
     return () => {
       isMounted = false;
     };
-  }, [dispatch, id]);
+  }, [dispatch, productId]);
+
+  const handleRemoveItem = () => {
+    dispatch(deleteItem({ cartId: cartId, productId: productId }));
+  };
 
   return (
     <div className='cart-item box-border py-2 flex w-full justify-between'>
-      <img
-        src={imgUrl}
-        alt=''
-        className='w-20 h-20 object-contain'
-      />
+      <img src={imgUrl} alt='' className='w-20 h-20 object-contain' />
       <div className='item-info w-2/3 flex flex-col justify-between'>
         <div className='flex justify-between'>
           <p>{name}</p>
           <p>{price}</p>
         </div>
         <div className='flex justify-between'>
-          <NumberEditor
-            count={quantity}
-            productId={id}
-          />
-          <button>Remove</button>
+          <NumberEditor count={quantity} productId={productId} />
+          <Button type='link' className='underline' onClick={handleRemoveItem}>
+            Remove
+          </Button>
         </div>
       </div>
     </div>
@@ -93,10 +92,7 @@ const Coupon = ({ coupon }) => {
           placeholder={'Type your coupon here'}
           onChange={(e) => setUserCoupon(e.target.value)}
         />
-        <Button
-          type='primary'
-          onClick={handleClick}
-        >
+        <Button type='primary' onClick={handleClick}>
           Apply
         </Button>
       </div>
@@ -104,10 +100,7 @@ const Coupon = ({ coupon }) => {
       {/* show valid coupon in the account */}
       {coupon === '20 DOLLAR OFF' && (
         <span>
-          <Text
-            type='success'
-            className='pl-4'
-          >
+          <Text type='success' className='pl-4'>
             {coupon}
           </Text>
         </span>
@@ -126,10 +119,7 @@ const Total = ({ discount, coupon, tax, subtotal, estimateTotal }) => {
   return (
     <>
       {['Subtotal', 'Tax', 'Discount', 'Estimated total'].map((item, index) => (
-        <div
-          className='flex justify-between pt-2'
-          key={index}
-        >
+        <div className='flex justify-between pt-2' key={index}>
           <p className='font-semibold'>{item}</p>
           <p>{amount[index]}</p>
         </div>

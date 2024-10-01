@@ -45,7 +45,12 @@ const userSlice = createSlice({
   reducers: {
     getCurrentUser: (state, action) => {
       state.isAuthenticated = !!Object.keys(action.payload.user).length;
-      state.user = action.payload;
+      const user = {
+        _id: action.payload.user.id,
+        isVender: action.payload.user.isVender,
+        products: action.payload.user.products,
+      };
+      state.user = user;
     },
     signOutUser: (state) => {
       state.isAuthenticated = false;
