@@ -1,8 +1,19 @@
+const Product = require('../models/Product');
+
 module.exports = async (req, res, next) => {
   const { id: productId } = req.params;
-  const { products } = req.user;
+  const { id: userId } = req.user;
 
-  const isOwner = products.includes(productId);
+  let isOwner = false;
+
+  try {
+    const product = await Product.findById(productId);
+    const ownerId = product.userId.toString();
+    isOwner = userId === ownerId;
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: 'Server Error' });
+  }
   if (isOwner) {
     next();
   } else {
