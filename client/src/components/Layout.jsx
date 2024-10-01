@@ -18,9 +18,9 @@ export default function MainLayout() {
         },
       }}
     >
-      <Layout className='min-h-screen'>
+      <Layout className='min-h-screen w-screen overflow-hidden'>
         <Navbar />
-        <Content className='flex justify-center items-center'>
+        <Content className='flex justify-center'>
           {currentPath === '/' ? <Home /> : <Outlet />}
         </Content>
         <Footer />

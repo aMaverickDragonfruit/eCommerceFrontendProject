@@ -61,7 +61,7 @@ export default function LogIn() {
   };
 
   return (
-    <div className='box-content w-96 h-fit border-2 rounded-md px-10 py-12 shadow-md'>
+    <div className='box-content md:w-96 h-fit mt-8 md:mt-20 border-2 rounded-md px-10 py-12 shadow-md'>
       <AuthForm
         buttonText='Create account'
         onSubmit={onSubmit}
@@ -73,7 +73,13 @@ export default function LogIn() {
         I am a vender
       </Checkbox>
       <p>
-        Already have an account <Link to='/signin'>Sign in</Link>
+        Don&apos;t have an account?{' '}
+        <span
+          className='text-indigo-500 cursor-pointer'
+          onClick={() => navigate('/signin')}
+        >
+          Sign in
+        </span>
       </p>
     </div>
   );
