@@ -1,5 +1,5 @@
 const express = require('express');
-const authMiddlewares = require('../middlewares/auth');
+const authMiddleware = require('../middlewares/auth');
 
 const {
   getAllCarts,
@@ -12,12 +12,12 @@ const {
 const router = express.Router();
 
 // api/carts
-router.get('/', authMiddlewares, getAllCarts);
+router.get('/', authMiddleware, getAllCarts);
 
 // api/carts/:id
-router.get('/:id', authMiddlewares, getOneCart);
-router.post('/', authMiddlewares, createCart);
-router.put('/:id', authMiddlewares, updateCart);
-router.delete('/:id', authMiddlewares, deleteCart);
+router.get('/:id', authMiddleware, getOneCart);
+router.post('/', authMiddleware, createCart);
+router.put('/:id', authMiddleware, updateCart);
+router.delete('/:id', authMiddleware, deleteCart);
 
 module.exports = router;
