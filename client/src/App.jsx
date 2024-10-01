@@ -11,17 +11,33 @@ import MainLayout from './components/Layout';
 import AddProduct from './pages/AddProduct';
 import ProductDetails from './pages/ProductDetail';
 import Page404 from './pages/Page404';
+import Checkout from './pages/Checkout';
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<MainLayout />}>
-            <Route path='signin' element={<SignIn />} />
-            <Route path='signup' element={<SignUp />} />
-            <Route path='forgot-password' element={<PwUpdate />} />
-            <Route path='email-sent' element={<PwUpdateNoti />} />
+          <Route
+            path='/'
+            element={<MainLayout />}
+          >
+            <Route
+              path='signin'
+              element={<SignIn />}
+            />
+            <Route
+              path='signup'
+              element={<SignUp />}
+            />
+            <Route
+              path='forgot-password'
+              element={<PwUpdate />}
+            />
+            <Route
+              path='email-sent'
+              element={<PwUpdateNoti />}
+            />
             <Route
               path='products'
               element={
@@ -54,7 +70,14 @@ export default function App() {
                 </ProtectedOwnerRoute>
               }
             />
-            <Route path='*' element={<Page404 />} />
+            <Route
+              path='checkout'
+              element={<Checkout />}
+            />
+            <Route
+              path='*'
+              element={<Page404 />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
