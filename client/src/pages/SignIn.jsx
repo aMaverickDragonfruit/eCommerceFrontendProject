@@ -5,6 +5,7 @@ import { fetchUser } from '../features/userSlice';
 import { fetchCart } from '../features/cartSlice';
 import { useState } from 'react';
 import { Alert } from 'antd';
+import { fetchProducts } from '../features/productSlice';
 
 export default function LogIn() {
   const [err, setErr] = useState(null);
@@ -32,9 +33,15 @@ export default function LogIn() {
       if (fetchUser.fulfilled.match(action)) {
         dispatch(fetchCart(action.payload.user.cart)).then((action) => {
           if (fetchCart.fulfilled.match(action)) {
-            navigate(from, { replace: true });
+            dispatch(fetchProducts()).then((action) => {
+              if (fetchProducts.fulfilled.match(action)) {
+                navigate(from, { replace: true });
+              } else if (fetchProducts.rejected.match(action)) {
+                setErr(action.payload);
+              }
+            });
           } else if (fetchCart.rejected.match(action)) {
-            console.log(action.payload);
+            setErr(action.payload);
           }
         });
       } else if (fetchUser.rejected.match(action)) {
@@ -57,12 +64,7 @@ export default function LogIn() {
         fields={fields}
       />
       {err ? (
-        <Alert
-          message={err}
-          type='error'
-          showIcon
-          className='mb-4'
-        />
+        <Alert message={err} type='error' showIcon className='mb-4' />
       ) : (
         <></>
       )}

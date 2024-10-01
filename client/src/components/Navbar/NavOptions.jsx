@@ -21,18 +21,19 @@ export default function NavOptions({ handleCart, className }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleSignOut = () => {
+    dispatch(signOutUser());
+    navigate('/');
+  };
   return (
     <div className={`w-1/4 h-12 flex justify-end gap-8 ${className}`}>
       {isAuthenticated ? (
         <>
           <Option
             icon={<UserOutlined className='text-xl' />}
-            handleClick={() => dispatch(signOutUser())}
+            handleClick={handleSignOut}
           >
-            <div
-              className='max-md:hidden'
-              aria-label='Sign out'
-            >
+            <div className='max-md:hidden' aria-label='Sign out'>
               Sign out
             </div>
           </Option>
@@ -49,10 +50,7 @@ export default function NavOptions({ handleCart, className }) {
             icon={<UserOutlined className='text-xl' />}
             handleClick={() => navigate('/signin')}
           >
-            <div
-              className='max-md:hidden'
-              aria-label='Sign in'
-            >
+            <div className='max-md:hidden' aria-label='Sign in'>
               Sign in
             </div>
           </Option>

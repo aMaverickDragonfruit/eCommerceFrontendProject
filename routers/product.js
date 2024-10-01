@@ -11,7 +11,7 @@ const {
 
 const router = express.Router();
 // api/products
-router.get('/', getAllProducts);
+router.get('/', authMiddlewares, getAllProducts);
 
 // api/products/:id
 router.get('/:id', authMiddlewares, getOneProduct);
