@@ -16,8 +16,8 @@ if (token) {
   store.dispatch(getCurrentUser(jwtPayload));
   const cartId = jwtPayload.user.cart;
   store.dispatch(fetchCart(cartId));
+  store.dispatch(fetchProducts());
 }
-store.dispatch(fetchProducts());
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
