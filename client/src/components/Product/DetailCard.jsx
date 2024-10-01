@@ -1,4 +1,4 @@
-import { Flex, Image, Typography, Button } from 'antd';
+import { Tag, Image, Typography, Button } from 'antd';
 import AddToCartButton from './AddToCartBtn';
 import EditProductBtn from './EditProductBtn';
 import { useSelector } from 'react-redux';
@@ -27,7 +27,16 @@ export default function DetailCard({ product }) {
       <div className='w-full lg:w-1/2 px-10 pt-10'>
         <p>{category}</p>
         <Title>{name}</Title>
-        <Title level={3}>{price}</Title>
+        <div className='flex align-middle space-x-4'>
+          <Title level={3}>${price}</Title>
+          {/* out of stock tag */}
+          <Tag
+            className='h-fit text-lg'
+            color='red'
+          >
+            Out of Stock
+          </Tag>
+        </div>
         <Text className='w-80'>{description}</Text>
         <div className='pt-4 flex space-x-4'>
           <AddToCartButton
