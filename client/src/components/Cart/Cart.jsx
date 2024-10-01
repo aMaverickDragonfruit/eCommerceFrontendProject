@@ -15,8 +15,6 @@ export default function Cart({ onClose }) {
   } = cart;
   let count = products.reduce((cur, product) => cur + product.quantity, 0);
 
-  if (loading) return <div>loading</div>;
-
   if (error) return <ServerError message={error} />;
   return (
     <>

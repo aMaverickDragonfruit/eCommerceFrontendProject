@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct } from '../../features/productSlice';
 import { useState, useEffect } from 'react';
 import { updateCoupon, deleteItem } from '../../features/cartSlice';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const CartHeader = ({ count, onClose }) => {
   return (
@@ -28,6 +30,7 @@ const CartItem = ({ cartId, product }) => {
   const [imgUrl, setImgUrl] = useState(null);
 
   const { product: productId, quantity } = product;
+  const { loading, error } = useSelector((state) => state.productSlice);
   const dispatch = useDispatch();
   useEffect(() => {
     let isMounted = true; // To prevent setting state if the component is unmounted
@@ -56,21 +59,27 @@ const CartItem = ({ cartId, product }) => {
   };
 
   return (
-    <div className='cart-item box-border py-2 flex w-full justify-between'>
-      <img src={imgUrl} alt='' className='w-20 h-20 object-contain' />
-      <div className='item-info w-2/3 flex flex-col justify-between'>
-        <div className='flex justify-between'>
-          <p>{name}</p>
-          <p>{price}</p>
-        </div>
-        <div className='flex justify-between'>
-          <NumberEditor count={quantity} productId={productId} />
-          <Button type='link' className='underline' onClick={handleRemoveItem}>
-            Remove
-          </Button>
+    <Spin indicator={<LoadingOutlined spin />} size='large' spinning={loading}>
+      <div className='cart-item box-border py-2 flex w-full justify-between'>
+        <img src={imgUrl} alt='' className='w-20 h-20 object-contain' />
+        <div className='item-info w-2/3 flex flex-col justify-between'>
+          <div className='flex justify-between'>
+            <p>{name}</p>
+            <p>{price}</p>
+          </div>
+          <div className='flex justify-between'>
+            <NumberEditor count={quantity} productId={productId} />
+            <Button
+              type='link'
+              className='underline'
+              onClick={handleRemoveItem}
+            >
+              Remove
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </Spin>
   );
 };
 
