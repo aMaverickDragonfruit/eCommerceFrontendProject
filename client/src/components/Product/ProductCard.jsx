@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Typography } from 'antd';
+import { Card, Button, Typography, Image } from 'antd';
 const { Meta } = Card;
 const { Text } = Typography;
 import AddToCartButton from './AddToCartBtn';
@@ -22,7 +22,7 @@ export default function ProductCard({ product, userId, className }) {
       hoverable
       cover={
         <img
-          className='m-0 p-4 pb-0 object-contain'
+          className='h-72 m-0 p-4 pb-0 object-contain'
           alt='example'
           src={imgUrl}
         />

@@ -4,6 +4,7 @@ import AuthForm from '../components/AuthForm';
 import { fetchUser } from '../features/userSlice';
 import { fetchCart } from '../features/cartSlice';
 import { useState } from 'react';
+import { Alert } from 'antd';
 
 export default function LogIn() {
   const [err, setErr] = useState(null);
@@ -48,7 +49,6 @@ export default function LogIn() {
 
   return (
     <div className='box-content w-96 border-2 rounded-md px-10 py-12 shadow-md'>
-      {err ? <p>{err}</p> : <></>}
       <AuthForm
         buttonText='Sign In'
         onSubmit={onSubmit}
@@ -56,7 +56,16 @@ export default function LogIn() {
         title='Sign in to your account'
         fields={fields}
       />
-
+      {err ? (
+        <Alert
+          message={err}
+          type='error'
+          showIcon
+          className='mb-4'
+        />
+      ) : (
+        <></>
+      )}
       <div className='flex justify-between'>
         <p>
           Don&apos;t have an account? <Link to='/signup'>Sign up</Link>

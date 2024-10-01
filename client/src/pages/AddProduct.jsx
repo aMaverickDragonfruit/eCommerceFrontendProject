@@ -9,6 +9,7 @@ export default function AddProduct({ isEdit }) {
   const dispatch = useDispatch();
 
   let { id: productId } = useParams();
+
   useEffect(() => {
     if (isEdit && productId) {
       dispatch(fetchCurrentProduct(productId));
@@ -23,7 +24,10 @@ export default function AddProduct({ isEdit }) {
   return (
     <div className=''>
       <p className='text-4xl font-bold mb-10'>{title}</p>
-      <ProductForm isEdit={isEdit} curProduct={curProduct} />
+      <ProductForm
+        isEdit={isEdit}
+        curProduct={curProduct}
+      />
     </div>
   );
 }
