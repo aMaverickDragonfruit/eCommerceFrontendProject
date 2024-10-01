@@ -22,7 +22,7 @@ export default function NavOptions({ handleCart, className }) {
   const navigate = useNavigate();
 
   return (
-    <div className={`h-12 flex gap-8 ${className}`}>
+    <div className={`w-1/4 h-12 flex justify-end gap-8 ${className}`}>
       {isAuthenticated ? (
         <>
           <Option

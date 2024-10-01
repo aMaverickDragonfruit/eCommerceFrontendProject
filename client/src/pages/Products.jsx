@@ -59,18 +59,25 @@ export default function Products() {
   }
 
   return (
-    <Spin indicator={<LoadingOutlined spin />} size='large' spinning={loading}>
+    <Spin
+      indicator={<LoadingOutlined spin />}
+      size='large'
+      spinning={loading}
+    >
       <div className='pt-10 px-20'>
         <div className='flex flex-col lg:flex-row justify-between'>
-          <p className='text-4xl font-bold'>Products</p>
-          <div className='flex items-center space-x-10'>
+          <p className='text-4xl font-bold mb-6 lg:mb-0'>Products</p>
+          <div className='flex justify-between md:items-center space-x-10'>
             <Selector
               options={sortingOptions}
               onChange={handleSorting}
               placeholder='Sort'
             />
             {isVender && (
-              <Button onClick={handleClick} type='primary'>
+              <Button
+                onClick={handleClick}
+                type='primary'
+              >
                 Add Product
               </Button>
             )}

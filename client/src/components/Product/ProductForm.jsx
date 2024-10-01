@@ -29,12 +29,13 @@ export default function ProductForm({ isEdit, curProduct }) {
   const handleCreateProduct = (data) => {
     data.userId = userId;
     dispatch(createProduct(data));
+    navigate('/products');
     // console.log(data);
   };
 
   const handleUpdateProduct = (data) => {
     dispatch(updateProduct({ productId: curProduct._id, productInfo: data }));
-    // navigate('/products');
+    navigate('/products');
     // console.log('update' + curProduct._id, data);
   };
 
@@ -61,7 +62,11 @@ export default function ProductForm({ isEdit, curProduct }) {
   const [displayImg, setDisplayImg] = useState(false);
 
   return (
-    <Spin indicator={<LoadingOutlined spin />} size='large' spinning={loading}>
+    <Spin
+      indicator={<LoadingOutlined spin />}
+      size='large'
+      spinning={loading}
+    >
       <Form
         form={form}
         className='border-2 bg-slate-white p-10 mb-10'
@@ -81,7 +86,10 @@ export default function ProductForm({ isEdit, curProduct }) {
           label='Product Description'
           rules={[{ required: true, message: 'Please enter the description' }]}
         >
-          <TextArea placeholder='discribe your product' rows={4}></TextArea>
+          <TextArea
+            placeholder='discribe your product'
+            rows={4}
+          ></TextArea>
         </Form.Item>
         <div className='flex flex-col md:flex-row justify-between space-0 md:space-x-4'>
           <Form.Item
@@ -90,7 +98,10 @@ export default function ProductForm({ isEdit, curProduct }) {
             className='w-full md:w-1/2'
             rules={[{ required: true, message: 'Please select a category' }]}
           >
-            <Selector options={categoryOptions} placeholder='--select--' />
+            <Selector
+              options={categoryOptions}
+              placeholder='--select--'
+            />
           </Form.Item>
 
           <Form.Item
@@ -114,7 +125,10 @@ export default function ProductForm({ isEdit, curProduct }) {
             <Input placeholder='100'></Input>
           </Form.Item>
 
-          <Form.Item label='Add Image Link' className='w-full md:w-2/3'>
+          <Form.Item
+            label='Add Image Link'
+            className='w-full md:w-2/3'
+          >
             <Space.Compact className='w-full'>
               <Form.Item
                 name='imgUrl'
@@ -131,7 +145,10 @@ export default function ProductForm({ isEdit, curProduct }) {
                   onChange={(e) => setProductUrl(e.target.value)}
                 />
               </Form.Item>
-              <Button type='primary' onClick={() => setDisplayImg(true)}>
+              <Button
+                type='primary'
+                onClick={() => setDisplayImg(true)}
+              >
                 View
               </Button>
             </Space.Compact>
@@ -141,7 +158,7 @@ export default function ProductForm({ isEdit, curProduct }) {
           {curProduct.imgUrl || displayImg ? (
             <Image
               style={{ width: 400 }}
-              src={curProduct.imgUrl || productUrl}
+              src={productUrl || curProduct.imgUrl}
             />
           ) : (
             <Skeleton.Image style={{ width: 400, height: 300 }} />
