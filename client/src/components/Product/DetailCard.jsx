@@ -13,8 +13,10 @@ export default function DetailCard({ product }) {
     category,
     price,
     imgUrl,
+    stock,
   } = product;
   const { _id: userId } = useSelector((state) => state.userSlice.user);
+  console.log(stock);
 
   return (
     <div className='flex flex-col lg:flex-row justify-center space-x-4 bg-white p-10'>
@@ -30,12 +32,14 @@ export default function DetailCard({ product }) {
         <div className='flex align-middle space-x-4'>
           <Title level={3}>${price}</Title>
           {/* out of stock tag */}
-          <Tag
-            className='h-fit text-lg'
-            color='red'
-          >
-            Out of Stock
-          </Tag>
+          {stock === 0 && (
+            <Tag
+              className='h-fit text-lg'
+              color='red'
+            >
+              Out of Stock
+            </Tag>
+          )}
         </div>
         <Text className='w-80'>{description}</Text>
         <div className='pt-4 flex space-x-4'>
