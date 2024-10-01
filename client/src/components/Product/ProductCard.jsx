@@ -5,16 +5,11 @@ const { Text } = Typography;
 import AddToCartButton from './AddToCartBtn';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import EditProductBtn from './EditProductBtn';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, userId, className }) {
   const navigate = useNavigate();
-  const { _id, userId, name, description, category, price, stock, imgUrl } =
-    product;
-
-  const handleEdit = (e) => {
-    e.stopPropagation();
-    console.log('edit');
-  };
+  const { _id, userId: ownerId, name, price, imgUrl } = product;
 
   const handleAddProduct = (e) => {
     e.stopPropagation();
@@ -23,7 +18,7 @@ export default function ProductCard({ product }) {
 
   return (
     <Card
-      className='w-auto'
+      className={`w-auto ${className}`}
       hoverable
       cover={
         <img
@@ -46,13 +41,7 @@ export default function ProductCard({ product }) {
         >
           Add more
         </AddToCartButton>
-
-        <Button
-          onClick={handleEdit}
-          className='max-w-fit'
-        >
-          Edit
-        </Button>
+        {userId === ownerId && <EditProductBtn productId={_id} />}
       </div>
     </Card>
   );

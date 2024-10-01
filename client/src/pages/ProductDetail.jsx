@@ -4,7 +4,10 @@ import DetailCard from '../components/Product/DetailCard';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProduct } from '../features/productSlice';
+import { fetchCurrentProduct } from '../features/productSlice';
+import ServerError from '../pages/ServerError';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export default function ProductDetails() {
   let { id } = useParams();
@@ -14,17 +17,17 @@ export default function ProductDetails() {
     (state) => state.productSlice
   );
   useEffect(() => {
-    dispatch(fetchProduct(id));
+    dispatch(fetchCurrentProduct(id));
   }, [dispatch, id]);
 
-  if (loading) return <div>loading</div>;
-
-  if (error) return <div>{error.message}</div>;
+  if (error) return <ServerError message={error} />;
 
   return (
-    <div className='px-20 pt-10'>
-      <p className='text-4xl font-bold mb-10'>Product Detail</p>
-      <DetailCard product={curProduct} />
-    </div>
+    <Spin indicator={<LoadingOutlined spin />} size='large' spinning={loading}>
+      <div className='px-20 pt-10'>
+        <p className='text-4xl font-bold mb-10'>Product Detail</p>
+        <DetailCard product={curProduct} />
+      </div>
+    </Spin>
   );
 }

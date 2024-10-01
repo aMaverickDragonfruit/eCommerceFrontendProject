@@ -1,71 +1,103 @@
-import { Button, Form, Input, Flex, Select, Space, Skeleton } from 'antd';
+import { Button, Form, Input, Space, Skeleton, Image } from 'antd';
 const { TextArea } = Input;
 import { createProduct } from '../../features/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Selector from '../Selector';
 // import Spinner from './Spinner';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { deleteCurProduct, updateProduct } from '../../features/productSlice';
+import { useNavigate } from 'react-router-dom';
 
-export default function ProductForm() {
+export default function ProductForm({ isEdit, curProduct }) {
+  const dispatch = useDispatch();
+  const [form] = Form.useForm(); // Create form instance
+  const navigate = useNavigate();
+
+  // console.log(curProduct);
+
   const categoryOptions = [
-    { value: 'Category1', label: 'Category1' },
-    { value: 'Category2', label: 'Category2' },
-    { value: 'Category3', label: 'Category3' },
+    { value: 'Watch', label: 'Watch' },
+    { value: 'Phone', label: 'Phone' },
+    { value: 'Labtop', label: 'Labtop' },
   ];
 
-  const [category, setCategory] = useState('');
-  const { user } = useSelector((state) => state.userSlice);
+  const { _id: userId } = useSelector((state) => state.userSlice.user);
   const { loading, error } = useSelector((state) => state.productSlice);
 
-  const dispatch = useDispatch();
-  const onSubmit = (data) => {
-    data.category = category;
-    data.userId = user.user.id;
+  const handleCreateProduct = (data) => {
+    data.userId = userId;
     dispatch(createProduct(data));
+    // console.log(data);
   };
+
+  const handleUpdateProduct = (data) => {
+    dispatch(updateProduct({ productId: curProduct._id, productInfo: data }));
+    // navigate('/products');
+    // console.log('update' + curProduct._id, data);
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(deleteCurProduct());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (curProduct) {
+      form.setFieldsValue({
+        name: curProduct.name,
+        description: curProduct.description,
+        category: curProduct.category,
+        price: curProduct.price,
+        stock: curProduct.stock,
+        imgUrl: curProduct.imgUrl,
+      });
+    }
+  }, [curProduct, form]);
+
+  const [productUrl, setProductUrl] = useState(null);
+  const [displayImg, setDisplayImg] = useState(false);
+
   return (
-    <Spin
-      indicator={<LoadingOutlined spin />}
-      size='large'
-      spinning={loading}
-    >
+    <Spin indicator={<LoadingOutlined spin />} size='large' spinning={loading}>
       <Form
-        className='border-2 bg-slate-white p-10'
+        form={form}
+        className='border-2 bg-slate-white p-10 mb-10'
         layout='vertical'
-        onFinish={onSubmit}
+        onFinish={isEdit ? handleUpdateProduct : handleCreateProduct}
         autoComplete='off'
       >
         <Form.Item
           name='name'
           label='Product Name'
+          rules={[{ required: true, message: 'Please enter the product name' }]}
         >
-          <Input placeholder='iWatch'></Input>
+          <Input placeholder='product name' />
         </Form.Item>
         <Form.Item
           name='description'
           label='Product Description'
+          rules={[{ required: true, message: 'Please enter the description' }]}
         >
-          <TextArea rows={4}></TextArea>
+          <TextArea placeholder='discribe your product' rows={4}></TextArea>
         </Form.Item>
         <div className='flex flex-col md:flex-row justify-between space-0 md:space-x-4'>
           <Form.Item
             name='category'
             label='Category'
             className='w-full md:w-1/2'
+            rules={[{ required: true, message: 'Please select a category' }]}
           >
-            <Selector
-              options={categoryOptions}
-              defaultValue='-select-'
-              handleChange={(value) => setCategory(value)}
-            />
+            <Selector options={categoryOptions} placeholder='--select--' />
           </Form.Item>
 
           <Form.Item
             name='price'
             label='Price'
             className='w-full md:w-1/2'
+            rules={[{ required: true, message: 'Please enter the price' }]}
           >
             <Input placeholder='50'></Input>
           </Form.Item>
@@ -75,29 +107,53 @@ export default function ProductForm() {
             name='stock'
             label='In Stock Quantity'
             className='w-full md:w-1/3'
+            rules={[
+              { required: true, message: 'Please enter the stock quantity' },
+            ]}
           >
             <Input placeholder='100'></Input>
           </Form.Item>
-          <Form.Item
-            name='imgUrl'
-            label='Add Image Link'
-            className='w-full md:w-2/3'
-          >
+
+          <Form.Item label='Add Image Link' className='w-full md:w-2/3'>
             <Space.Compact className='w-full'>
-              <Input defaultValue='http://' />
-              <Button type='primary'>View</Button>
+              <Form.Item
+                name='imgUrl'
+                noStyle
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter product image URL',
+                  },
+                ]}
+              >
+                <Input
+                  placeholder='http://'
+                  onChange={(e) => setProductUrl(e.target.value)}
+                />
+              </Form.Item>
+              <Button type='primary' onClick={() => setDisplayImg(true)}>
+                View
+              </Button>
             </Space.Compact>
           </Form.Item>
         </div>
-        <Skeleton.Image className='' />
+        <div className='text-center'>
+          {curProduct.imgUrl || displayImg ? (
+            <Image
+              style={{ width: 400 }}
+              src={curProduct.imgUrl || productUrl}
+            />
+          ) : (
+            <Skeleton.Image style={{ width: 400, height: 300 }} />
+          )}
+        </div>
         <Button
           type='primary'
           htmlType='submit'
-          className='w-full'
+          className='w-full mt-10'
           size='large'
-          // loading={status === 'pending'}
         >
-          Add Product
+          {isEdit ? 'Submit Edit' : 'Add Product'}
         </Button>
       </Form>
     </Spin>

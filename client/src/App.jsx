@@ -8,33 +8,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/Layout';
 import AddProduct from './pages/AddProduct';
 import ProductDetails from './pages/ProductDetail';
-import Testing from './components/testing';
+import Page404 from './pages/Page404';
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path='/'
-            element={<MainLayout />}
-          >
-            <Route
-              path='signin'
-              element={<SignIn />}
-            />
-            <Route
-              path='signup'
-              element={<SignUp />}
-            />
-            <Route
-              path='forgot-password'
-              element={<PwUpdate />}
-            />
-            <Route
-              path='email-sent'
-              element={<PwUpdateNoti />}
-            />
+          <Route path='/' element={<MainLayout />}>
+            <Route path='signin' element={<SignIn />} />
+            <Route path='signup' element={<SignUp />} />
+            <Route path='forgot-password' element={<PwUpdate />} />
+            <Route path='email-sent' element={<PwUpdateNoti />} />
             <Route
               path='products'
               element={
@@ -51,17 +36,9 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path='add-product'
-              element={<AddProduct />}
-            />
-            {/* <Route path='product-detail' element={<DetailCard />} /> */}
-
-            {/* This is testing Route */}
-            <Route
-              path='testing'
-              element={<Testing />}
-            />
+            <Route path='add-product' element={<AddProduct isEdit={false} />} />
+            <Route path='edit/:id' element={<AddProduct isEdit={true} />} />
+            <Route path='*' element={<Page404 />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -2,22 +2,22 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateItemQuantity } from '../../features/cartSlice';
+import { updateItemQuantity, deleteItem } from '../../features/cartSlice';
 // import { updateItemQuantity } from '../../../features/cartSlice';
 
 const AddToCartButton = ({ productId }) => {
   const cart = useSelector((state) => state.cartSlice.cart);
-  const products = cart?.products || [];
 
   const [found, setFound] = useState(false);
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const products = cart?.products || [];
     const found = products.find((product) => product.product === productId);
     setQuantity(found?.quantity);
     setFound(!!found);
-  }, [products, productId]);
+  }, [cart?.products, productId]);
 
   // Handler for adding item to cart
   const handleAddToCart = (e) => {
@@ -29,15 +29,17 @@ const AddToCartButton = ({ productId }) => {
         quantity: 1,
       })
     );
-    console.log('add to cart');
+    // console.log('add to cart');
+  };
+
+  const handleEditQuantity = (e) => {
+    e.stopPropagation();
+    console.log('edit quantity');
   };
 
   if (!found)
     return (
-      <Button
-        type='primary'
-        onClick={handleAddToCart}
-      >
+      <Button type='primary' onClick={handleAddToCart}>
         Add to Cart
       </Button>
     );
@@ -70,13 +72,19 @@ const AddToCartButton = ({ productId }) => {
     } else {
       // Reset to initial state
       setQuantity(0);
+      dispatch(
+        deleteItem({
+          cartId: cart._id,
+          productId: productId,
+        })
+      );
     }
   };
 
   return (
     <Button
       type='primary'
-      onClick={quantity === 0 ? handleAddToCart : null}
+      onClick={quantity === 0 ? handleAddToCart : handleEditQuantity}
       className='flex items-center justify-center px-2 w-24'
     >
       <div className='flex items-center justify-between w-full'>
