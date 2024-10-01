@@ -1,4 +1,5 @@
 const express = require('express');
+const authMiddlewares = require('../middlewares/auth');
 
 const {
   getAllCarts,
@@ -11,12 +12,12 @@ const {
 const router = express.Router();
 
 // api/carts
-router.get('/', getAllCarts);
+router.get('/', authMiddlewares, getAllCarts);
 
 // api/carts/:id
-router.get('/:id', getOneCart);
-router.post('/', createCart);
-router.put('/:id', updateCart);
-router.delete('/:id', deleteCart);
+router.get('/:id', authMiddlewares, getOneCart);
+router.post('/', authMiddlewares, createCart);
+router.put('/:id', authMiddlewares, updateCart);
+router.delete('/:id', authMiddlewares, deleteCart);
 
 module.exports = router;

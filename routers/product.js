@@ -1,4 +1,5 @@
 const express = require('express');
+const authMiddlewares = require('../middlewares/auth');
 
 const {
   getAllProducts,
@@ -10,12 +11,12 @@ const {
 
 const router = express.Router();
 // api/products
-router.get('/', getAllProducts);
+router.get('/', authMiddlewares, getAllProducts);
 
 // api/products/:id
-router.get('/:id', getOneProduct);
-router.post('/', createProduct);
-router.put('/:id', updateProduct);
-router.delete('/:id', deleteProduct);
+router.get('/:id', authMiddlewares, getOneProduct);
+router.post('/', authMiddlewares, createProduct);
+router.put('/:id', authMiddlewares, updateProduct);
+router.delete('/:id', authMiddlewares, deleteProduct);
 
 module.exports = router;
