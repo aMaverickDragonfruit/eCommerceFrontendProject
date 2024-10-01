@@ -15,7 +15,7 @@ export default function PwUpdatedNoti() {
   };
 
   return (
-    <div>
+    <div className='flex justify-center h-fit mt-8 md:mt-20'>
       <Notification
         icon={icon}
         message={message}

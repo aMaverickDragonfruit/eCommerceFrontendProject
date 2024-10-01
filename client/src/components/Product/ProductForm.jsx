@@ -116,7 +116,7 @@ export default function ProductForm({ isEdit, curProduct }) {
         <div className='flex flex-col md:flex-row justify-between space-0 md:space-x-4'>
           <Form.Item
             name='stock'
-            label='In Stock Quantity'
+            label='Stock'
             className='w-full md:w-1/3'
             rules={[
               { required: true, message: 'Please enter the stock quantity' },
@@ -154,16 +154,34 @@ export default function ProductForm({ isEdit, curProduct }) {
             </Space.Compact>
           </Form.Item>
         </div>
-        <div className='text-center'>
+
+        {curProduct.imgUrl || displayImg ? (
+          <div className='text-center'>
+            <Image
+              style={{ width: 800, height: 'auto' }}
+              src={productUrl || curProduct.imgUrl}
+            />
+          </div>
+        ) : (
+          <div className='border-2 border-dashed py-10 text-center w-full'>
+            <div className='w-full'>
+              <Skeleton.Image />
+            </div>
+          </div>
+        )}
+
+        {/* <div className='border-2 border-dashed py-10 text-center w-full'>
           {curProduct.imgUrl || displayImg ? (
             <Image
-              style={{ width: 400 }}
+              style={{ width: '100%' }}
               src={productUrl || curProduct.imgUrl}
             />
           ) : (
-            <Skeleton.Image style={{ width: 400, height: 300 }} />
+            <div className='w-full'>
+              <Skeleton.Image />
+            </div>
           )}
-        </div>
+        </div> */}
         <Button
           type='primary'
           htmlType='submit'

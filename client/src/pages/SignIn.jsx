@@ -55,7 +55,7 @@ export default function LogIn() {
   };
 
   return (
-    <div className='box-content w-96 border-2 rounded-md px-10 py-12 shadow-md'>
+    <div className='box-content h-fit mt-8 md:mt-20 md:w-96 border-2 rounded-md px-10 py-12 shadow-md'>
       <AuthForm
         buttonText='Sign In'
         onSubmit={onSubmit}
@@ -68,11 +68,23 @@ export default function LogIn() {
       ) : (
         <></>
       )}
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row items-center md:justify-between'>
         <p>
-          Don&apos;t have an account? <Link to='/signup'>Sign up</Link>
+          Don&apos;t have an account?{' '}
+          <span
+            className='text-indigo-500 cursor-pointer'
+            onClick={() => navigate('/signup')}
+          >
+            Sign up
+          </span>
         </p>
-        <Link to='/forgot-password'>Forgot password?</Link>
+        {/* <Link to='/forgot-password'>Forgot password?</Link> */}
+        <p
+          className='text-indigo-500 cursor-pointer'
+          onClick={() => navigate('/forgot-password')}
+        >
+          Forgot password?
+        </p>
       </div>
     </div>
   );
