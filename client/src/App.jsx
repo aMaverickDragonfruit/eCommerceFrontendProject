@@ -4,6 +4,8 @@ import Products from './pages/Products';
 import PwUpdate from './pages/PwUpdate';
 import PwUpdateNoti from './pages/PwUpdateNoti';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedVenderRoute from './components/ProtectedVenderRoute';
+import ProtectedOwnerRoute from './components/ProtectedOwnerRoute';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/Layout';
 import AddProduct from './pages/AddProduct';
@@ -36,8 +38,22 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path='add-product' element={<AddProduct isEdit={false} />} />
-            <Route path='edit/:id' element={<AddProduct isEdit={true} />} />
+            <Route
+              path='add-product'
+              element={
+                <ProtectedVenderRoute>
+                  <AddProduct isEdit={false} />
+                </ProtectedVenderRoute>
+              }
+            />
+            <Route
+              path='edit/:id'
+              element={
+                <ProtectedOwnerRoute>
+                  <AddProduct isEdit={true} />
+                </ProtectedOwnerRoute>
+              }
+            />
             <Route path='*' element={<Page404 />} />
           </Route>
         </Routes>
