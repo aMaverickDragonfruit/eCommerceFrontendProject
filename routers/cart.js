@@ -16,7 +16,7 @@ router.get('/', authMiddleware, getAllCarts);
 
 // api/carts/:id
 router.get('/:id', authMiddleware, getOneCart);
-router.post('/', authMiddleware, createCart);
+router.post('/', createCart);
 router.put('/:id', authMiddleware, updateCart);
 router.delete('/:id', authMiddleware, deleteCart);
 
